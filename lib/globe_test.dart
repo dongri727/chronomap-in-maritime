@@ -61,7 +61,7 @@ class MyChartState extends State<MyChart> {
           enable: true,
           depthOfField: {
             focalRange: 15,
-            enable: true,
+            enable: false,
             focalDistance: 100
           }
         },
@@ -96,7 +96,7 @@ class MyChartState extends State<MyChart> {
         blendMode: "lighter",
         symbolSize: 2,
         itemStyle: {
-          color: "rgb(50, 50, 150)",
+          color: "rgb(255, 255, 255)",
           opacity: 1
         },
         data: ${json.encode(data)}
