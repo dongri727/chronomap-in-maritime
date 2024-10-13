@@ -1,8 +1,13 @@
+import 'package:chronomap_in_maritime/classic.dart';
 import 'package:chronomap_in_maritime/globe_test.dart';
+import 'package:chronomap_in_maritime/scalable/menu/scalable.dart';
+import 'package:chronomap_in_maritime/scatter/columbus/columbus.dart';
 import 'package:chronomap_in_maritime/test1_page.dart';
+import 'package:chronomap_in_maritime/utils/theme.dart';
 import 'package:flutter/material.dart';
-
+import 'add_events/principal_page.dart';
 import 'scatter_test.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class IndexPage extends StatefulWidget {
   const IndexPage({super.key});
@@ -25,23 +30,113 @@ class _IndexPageState extends State<IndexPage> {
       body: Center(
         child: Container(
           constraints: const BoxConstraints.expand( ),
-/*
           decoration: const BoxDecoration(
             image: DecorationImage(
-              image: AssetImage('assets/images/main.png'),
+              image: AssetImage('assets/images/sea.png'),
               fit: BoxFit.cover,
             ),
           ),
-*/
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+
               Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: OutlinedButton(
-                  child: Text('globe-test'
-/*                    AppLocalizations.of(context)!.indexA,
-                    style: SpaceTheme.textTheme.headlineMedium,*/
+                  child: Text(
+                    AppLocalizations.of(context)!.indexA,
+                    style: MaritimeTheme.textTheme.headlineMedium,
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const PrincipalPage()));
+                  },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: OutlinedButton(
+                  child: Text(
+                    'CLASSIC',
+                    style: MaritimeTheme.textTheme.headlineMedium,
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ClassicPage()));
+                  },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: OutlinedButton(
+                  child: Text('Columbus',
+                    style: MaritimeTheme.textTheme.headlineMedium,
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ColumbusPage()));
+                  },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: OutlinedButton(
+                  child: Text('scatter-test',
+                    //AppLocalizations.of(context)!.indexB,
+                    style: MaritimeTheme.textTheme.headlineMedium,
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const Planets()));
+                  },
+                ),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: OutlinedButton(
+                  child: Text('scalable',
+                    //AppLocalizations.of(context)!.indexD,
+                    style: MaritimeTheme.textTheme.headlineMedium,
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const Scalable()));
+                  },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: OutlinedButton(
+                  child: Text('Test1Page',
+                    //AppLocalizations.of(context)!.indexE,
+                    style: MaritimeTheme.textTheme.headlineMedium,
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const Test1Page()));
+                  },
+                ),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: OutlinedButton(
+                  child: Text('globe-test',
+                    //AppLocalizations.of(context)!.indexA,
+                    style: MaritimeTheme.textTheme.headlineMedium,
                   ),
                   onPressed: (){
                     Navigator.push(
@@ -51,81 +146,6 @@ class _IndexPageState extends State<IndexPage> {
                   },
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: OutlinedButton(
-                  child: Text('scatter-test'
-/*                    AppLocalizations.of(context)!.indexB,
-                    style: SpaceTheme.textTheme.headlineMedium,*/
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const Planets()));
-                  },
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: OutlinedButton(
-                  child: Text('test1'
-/*                    AppLocalizations.of(context)!.indexC,
-                    style: SpaceTheme.textTheme.headlineMedium,*/
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const MyHomePage()));
-                  },
-                ),
-              ),
-/*              Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: OutlinedButton(
-                  child: Text(
-                    AppLocalizations.of(context)!.indexD,
-                    style: SpaceTheme.textTheme.headlineMedium,
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const Paths()));
-                  },
-                ),
-              ),*/
-             /* Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: OutlinedButton(
-                  child: Text(
-                    AppLocalizations.of(context)!.indexE,
-                    style: SpaceTheme.textTheme.headlineMedium,
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const Planets()));
-                  },
-                ),
-              ),*/
-/*              Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: OutlinedButton(
-                  child: Text(
-                    'Mini Moon',
-                    style: SpaceTheme.textTheme.headlineMedium,
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const MiniMoonPage()));
-                  },
-                ),
-              ),*/
             ],
           ),
         ),

@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_echarts/flutter_echarts.dart';
@@ -26,12 +25,11 @@ class MyChartState extends State<MyChart> {
   }
 
   Future<List<dynamic>> loadAndProcessData() async {
-    String jsonString = await rootBundle.loadString('assets/json/population.json');
+    String jsonString = await rootBundle.loadString('assets/json/coastline.json');
     List<dynamic> data = json.decode(jsonString);
 
     data = data
-        .where((dataItem) => dataItem[2] > 0)
-        .map((dataItem) => [dataItem[0], dataItem[1], sqrt(dataItem[2] as num)])
+        .map((dataItem) => [dataItem[0], dataItem[1], 7])
         .toList();
 
     return data;
@@ -50,8 +48,8 @@ class MyChartState extends State<MyChart> {
         }
       },
       globe: {
-        environment: "asset://assets/images/starfield.jpg",
-        heightTexture: "asset://assets/imsges/bathymetry_bw_composite_4k.jpg",
+        environment: "　",
+        heightTexture: "　",
         displacementScale: 0.05,
         displacementQuality: "high",
         globeOuterRadius: 100,
@@ -112,21 +110,24 @@ class MyChartState extends State<MyChart> {
       appBar: AppBar(
         title: const Text('ECharts Example'),
       ),
-      body: FutureBuilder<List<dynamic>>(
-        future: _dataFuture,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            String option = createOption(snapshot.data!);
-            return Echarts(
-              extensions: const [glScript],
-              option: option,
-            );
-          } else if (snapshot.hasError) {
-            return const Center(child: Text('データの読み込み中にエラーが発生しました'));
-          } else {
-            return const Center(child: CircularProgressIndicator());
-          }
-        },
+      body: Container(
+        child: FutureBuilder<List<dynamic>>(
+          future: _dataFuture,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              String option = createOption(snapshot.data!);
+              return Echarts(
+                extensions: const [glScript],
+                captureAllGestures: true,
+                option: option,
+              );
+            } else if (snapshot.hasError) {
+              return const Center(child: Text('データの読み込み中にエラーが発生しました'));
+            } else {
+              return const Center(child: CircularProgressIndicator());
+            }
+          },
+        ),
       ),
     );
   }

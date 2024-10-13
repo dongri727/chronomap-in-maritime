@@ -3,14 +3,14 @@ import 'package:flutter_echarts/flutter_echarts.dart';
 
 import 'gl_script.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+class Test1Page extends StatefulWidget {
+  const Test1Page({super.key});
 
   @override
-  MyHomePageState createState() => MyHomePageState();
+  Test1PageState createState() => Test1PageState();
 }
 
-class MyHomePageState extends State<MyHomePage> {
+class Test1PageState extends State<Test1Page> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
@@ -40,9 +40,9 @@ class MyHomePageState extends State<MyHomePage> {
                 child: Text('- chart capture all gestures'),
               ),
 
-              Container(
-                width: 400,
-                height: 500,
+              SizedBox(
+                width: 800,
+                height: 800,
                 child: Echarts(
                   extensions: const [glScript],
                   captureAllGestures: true,
@@ -50,11 +50,11 @@ class MyHomePageState extends State<MyHomePage> {
                     {
                       backgroundColor: "#000",
   globe: {
-    baseTexture: "asset://assets/images/world.topo.bathy.200401.jpg",
-    heightTexture: "asset://assets/images/bathymetry_bw_composite_4k.jpg",
+    baseTexture: "　",
+    heightTexture: "　",
     displacementScale: 0.2,
     shading: 'realistic',
-    environment: "asset://assets/images/starfield.jpg",
+    environment: "　",
     postEffect: {
       enable: true
     },
