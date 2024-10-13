@@ -18,6 +18,7 @@ class PhoneBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController controller = TextEditingController();
     return ChangeNotifierProvider<PrincipalModel>(
       create: (_) => PrincipalModel(),
       child: Consumer<PrincipalModel>(
@@ -279,12 +280,12 @@ class PhoneBody extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: FormatGrey(
-                          controller: model.seaController,
+                          controller: controller,
                           hintText:
                           AppLocalizations.of(context)!
                               .newWord,
                           onChanged: (text) {
-                            //model.setNewStar(text);
+                            model.setNewPlace(text);
                           },
                         ),
                       ),

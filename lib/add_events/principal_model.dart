@@ -26,7 +26,7 @@ class PrincipalModel extends ChangeNotifier {
   }
 
   //地名・海域名の追加に用いる
-  TextEditingController seaController = TextEditingController();
+  //TextEditingController controller = TextEditingController();
 
   double log10(num x) => log(x) / ln10;
 
@@ -266,8 +266,8 @@ class PrincipalModel extends ChangeNotifier {
 
   //記入された地名・海域名を取得
   //todo 海域を分離する
-  setNewPrecise(text) {
-    newPrecise = text;
+  setNewPlace(text) {
+    newPlace = text;
     notifyListeners();
   }
 

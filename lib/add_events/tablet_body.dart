@@ -18,6 +18,7 @@ class TabletBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController controller = TextEditingController();
     return ChangeNotifierProvider<PrincipalModel>(
       create: (_) => PrincipalModel(),
       child: Consumer<PrincipalModel>(
@@ -327,12 +328,12 @@ class TabletBody extends StatelessWidget {
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: FormatGrey(
-                                          controller: model.seaController,
+                                          controller: controller,
                                           hintText:
                                           AppLocalizations.of(context)!
                                               .newWord,
                                           onChanged: (text) {
-                                            model.setNewPrecise(text);
+                                            model.setNewPlace(text);
                                           },
                                         ),
                                       ),
