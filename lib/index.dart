@@ -1,4 +1,4 @@
-import 'package:chronomap_in_maritime/classic.dart';
+import 'package:chronomap_in_maritime/search/search_page.dart';
 import 'package:chronomap_in_maritime/globe_test.dart';
 import 'package:chronomap_in_maritime/scalable/menu/scalable.dart';
 import 'package:chronomap_in_maritime/scatter/columbus/columbus.dart';
@@ -66,7 +66,7 @@ class _IndexPageState extends State<IndexPage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const ClassicPage()));
+                            builder: (context) => const SearchPage()));
                   },
                 ),
               ),

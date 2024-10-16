@@ -9,7 +9,8 @@ import '../lists/oceans_list.dart';
 import '../lists/epoch_list.dart';
 import '../lists/principal_options_list.dart';
 import '../serverpod_client.dart';
-import '../utils/choice_si_format.dart';
+import '../utils/build_chips.dart';
+import '../utils/chips_format.dart';
 import 'principal_page.dart';
 import 'dart:math' as math;
 

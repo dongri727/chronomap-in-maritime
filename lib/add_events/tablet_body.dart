@@ -4,7 +4,7 @@ import '../hints/add_hint_page.dart';
 import '../index.dart';
 import '../utils/blank_text_format.dart';
 import '../utils/button_format.dart';
-import '../utils/choice_si_format.dart';
+import '../utils/chips_format.dart';
 import '../utils/dropdown_button_format.dart';
 import '../utils/format_grey.dart';
 import '../utils/navi_button.dart';
