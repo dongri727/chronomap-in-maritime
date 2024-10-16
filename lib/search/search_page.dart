@@ -12,7 +12,6 @@ class SearchPage extends StatefulWidget {
 }
 
 class SearchPageState extends State<SearchPage> {
-  // リストデータの例 (id と name)
   final List<Map<String, dynamic>> items = targets;
 
   // 選択された id を格納する変数
@@ -45,7 +44,7 @@ class SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Select Item'),
+        title: const Text('CLASSIC VIEW'),
       ),
       body: Container(
         constraints: const BoxConstraints.expand(),
@@ -87,26 +86,36 @@ class SearchPageState extends State<SearchPage> {
                 child: ListView.builder(
                   itemCount: listPrincipal.length,
                   itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: Card(
-                        color: const Color(0xFFe6e6fa),
-                        child: ListTile(
-                          leading: Text(
-                            '${listPrincipal[index].annee}-${listPrincipal[index].month}-${listPrincipal[index].day}',
-                            style: const TextStyle(fontSize: 16),
-                          ),
-                          title: Text(
-                            listPrincipal[index].affair,
-                            style: const TextStyle(fontSize: 24),
-                          ),
-                          trailing: Text(
-                            '${listPrincipal[index].location}, ${listPrincipal[index].precise}',
-                            style: const TextStyle(fontSize: 20),
-                          ),
+                    return Card(
+                      margin:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '${listPrincipal[index].annee}-${listPrincipal[index].month}-${listPrincipal[index].day}',
+                              style: const TextStyle(fontSize: 14),
+                            ),
+                            const SizedBox(
+                              height: 4,
+                            ),
+                            Text( listPrincipal[index].affair,
+                              style: const TextStyle(fontSize: 16),
+                            ),
+                            const SizedBox(
+                              height: 2,
+                            ),
+                            Text(
+                              '${listPrincipal[index].location}, ${listPrincipal[index].precise}',
+                              style: const TextStyle(fontSize: 12),
+                            ),
+                          ],
                         ),
                       ),
                     );
+
                   },
                 ),
               ),
