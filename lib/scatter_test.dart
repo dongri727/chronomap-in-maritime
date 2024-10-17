@@ -1,73 +1,86 @@
 import 'dart:convert';
-
+import 'package:chronomap_in_maritime/fetch/fetch_ptincipal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_echarts/flutter_echarts.dart';
-
+import 'fetch/fetch_with_map.dart';
 import 'gl_script.dart' show glScript;
 
-class Planets extends StatefulWidget {
-  const Planets({super.key});
+class DBView extends StatefulWidget {
+  const DBView({super.key});
 
   @override
-  PlanetsState createState() => PlanetsState();
+  DBViewState createState() => DBViewState();
 }
 
-class PlanetsState extends State<Planets> {
+class DBViewState extends State<DBView> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
-  List<dynamic>? cassini;
+  List<int> maritimeCode = [327,328,329,330,331,332,333,334,336,337,338,339,340,341,342,343,344];
+  List<dynamic>? coastLine;
+
+  List<Map<String, dynamic>>? maritimeData;
+  final FetchWithMapRepository fetchWithMapRepository = FetchWithMapRepository();
+  final FetchPrincipalRepository fetchPrincipalRepository = FetchPrincipalRepository();
 
   @override
   void initState() {
     super.initState();
-    _loadData();
+    _loadData(maritimeCode);
+    _loadCoastLine();
   }
 
-  Future<void> _loadData() async {
-    final String jsonString = await rootBundle.loadString('assets/json/cassini_timeline.json');
-    final List<dynamic> jsonData = json.decode(jsonString);
+  int? selectedId;
+
+  Future<void> getPrincipalIds(selectedId) async {
+    await fetchPrincipalRepository.fetchPrincipalByDetailId(detailIds: selectedId);
+  }
+
+  Future<void> _loadData(maritimeCode) async {
+    await fetchWithMapRepository.fetchWithMap(keyNumbers: maritimeCode);
     setState(() {
-      cassini = jsonData;
+      maritimeData = fetchWithMapRepository.listWithMap.map((withMap) => {
+        "value": [withMap.longitude, withMap.latitude, withMap.logarithm],
+        "name": withMap.affair,
+      }).toList();
     });
   }
+  
+  Future<void> _loadCoastLine() async {
+    final String jsonString = await rootBundle.loadString('assets/json/coastline.json');
+    final List<dynamic> jsonData = json.decode(jsonString);
+    setState(() {
+      coastLine = jsonData.map((coordinate) => [...coordinate, 895]).toList();
+    });
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
-        title: const Text('Planets Explore'),
+        title: const Text('DB View'),
       ),
       body: Container(
-/*        constraints: const BoxConstraints.expand( ),
+        constraints: const BoxConstraints.expand( ),
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/space.png'),
+            image: AssetImage('assets/images/sea.png'),
             fit: BoxFit.cover,
           ),
-        ),*/
+        ),
         child: Center(
           child: SizedBox(
             width: 1200,
             height: 1000,
-            child: cassini == null
+            child: maritimeData == null
                 ? const CircularProgressIndicator()
                 : Echarts(
               extensions: const [glScript],
               option: '''
     (function() {
-      function generateOrbitData(radius, interval) {
-        var data = [];
-        for (var t = 0; t < 2 * Math.PI; t += interval) {
-          var x = radius * Math.cos(t);
-          var y = radius * Math.sin(t);
-          var z = 2450000;  //時間軸対応
-          data.push([x, y, z]);
-        }
-        return data;
-      }
-
       return {
         tooltip: {
           show: true,
@@ -85,30 +98,30 @@ class PlanetsState extends State<Planets> {
         },
         xAxis3D: {
           type: 'value',
-          min: -30,
-          max: 30,
+          min: -90,
+          max: 90,
           splitLine: {show: false},
-          name: 'Pisces-Virgo',
+          name: 'Longitude',
           axisLine: {
             lineStyle: {color: '#E6E1E6'}
           }
         },
         yAxis3D: {
           type: 'value',
-          min: -30,
-          max: 30,
+          min: -90,
+          max: 90,
           splitLine: {show: false},                  
-          name: 'Gemini-Sagittarius',
+          name: 'Latitude',
           axisLine: {
             lineStyle: {color: '#E6E1E6'}
           }
         },
         zAxis3D: {
           type: 'value',
-          min: 2450000,
-          max: 2455000,
+          min: 890,
+          max: 900,
           splitLine: {show: false},
-          name: 'timeline(JulianD)',
+          name: 'timeline',
           axisLine: {
             lineStyle: {color: '#E6E1E6'}
           }                                 
@@ -116,8 +129,8 @@ class PlanetsState extends State<Planets> {
         series: [
           {
             type: 'scatter3D',
-            symbolSize: 5,
-            data: ${json.encode(cassini)},
+            symbolSize: 6,
+            data: ${json.encode(maritimeData)},
               label: {
                 show: true,
                 textStyle: {
@@ -128,38 +141,14 @@ class PlanetsState extends State<Planets> {
                   return param.data.name;
                 }
               },
-              itemStyle: {opacity: 0.8}    
+              itemStyle: {color: 'yellow', opacity: 0.8}    
             },
             {
               type: 'scatter3D',
-              symbolSize: 2,
-              data: generateOrbitData(5.82, 0.01), // 水星
-              itemStyle: { color: '#FF6347' } 
-            },
-            {
-              type: 'scatter3D',
-              symbolSize: 2,
-              data: generateOrbitData(10.75, 0.01), // 金星
-              itemStyle: { color: '#FF6347' } 
-            },
-            {
-              type: 'scatter3D',
-              symbolSize: 2,
-              data: generateOrbitData(14.93, 0.01), // 地球
-              itemStyle: { color: 'blue' } 
-            },
-            {
-              type: 'scatter3D',
-              symbolSize: 2,
-              data: generateOrbitData(22.68, 0.01), // 火星
-              itemStyle: { color: '#FF6347' } 
-            },
-            {
-              type: 'scatter3D',
-              symbolSize: 2,
-              data: generateOrbitData(40.31, 0.01), // 小惑星帯
-              itemStyle: { color: '#FF6347' } 
-            },      
+              symbolSize: 3,
+              data: ${json.encode(coastLine)},
+              itemStyle: { color: 'white' } 
+            },     
           ]
         };
             })()

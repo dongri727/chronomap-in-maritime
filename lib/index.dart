@@ -95,7 +95,7 @@ class _IndexPageState extends State<IndexPage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const Planets()));
+                            builder: (context) => const DBView()));
                   },
                 ),
               ),
