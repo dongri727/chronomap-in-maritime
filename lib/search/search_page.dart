@@ -1,8 +1,10 @@
 import 'package:acorn_client/acorn_client.dart';
 import 'package:chronomap_in_maritime/lists/targets_list.dart';
+import 'package:chronomap_in_maritime/search/result_tab_top.dart';
 import 'package:flutter/material.dart';
 
 import '../serverpod_client.dart';
+import '../utils/theme.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -44,7 +46,7 @@ class SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('CLASSIC VIEW'),
+        title: const Text('Search'),
       ),
       body: Container(
         constraints: const BoxConstraints.expand(),
@@ -58,6 +60,7 @@ class SearchPageState extends State<SearchPage> {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
+              const Text('どの項目で絞り込みますか'),
               // Chip をリストから生成
               Wrap(
                 spacing: 8.0,
@@ -80,42 +83,18 @@ class SearchPageState extends State<SearchPage> {
                   );
                 }).toList(),
               ),
-              const SizedBox(height: 20),
-              // 取得されたListをListTileとして表示
-              Expanded(
-                child: ListView.builder(
-                  itemCount: listPrincipal.length,
-                  itemBuilder: (context, index) {
-                    return Card(
-                      margin:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '${listPrincipal[index].annee}-${listPrincipal[index].month}-${listPrincipal[index].day}',
-                              style: const TextStyle(fontSize: 14),
-                            ),
-                            const SizedBox(
-                              height: 4,
-                            ),
-                            Text( listPrincipal[index].affair,
-                              style: const TextStyle(fontSize: 16),
-                            ),
-                            const SizedBox(
-                              height: 2,
-                            ),
-                            Text(
-                              '${listPrincipal[index].location}, ${listPrincipal[index].precise}',
-                              style: const TextStyle(fontSize: 12),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
 
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: OutlinedButton(
+                  child: Text('Result',
+                    style: MaritimeTheme.textTheme.headlineMedium,
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ResultTabTop(listPrincipal: listPrincipal, principalIds: principalIds)));
                   },
                 ),
               ),

@@ -59,7 +59,7 @@ class _IndexPageState extends State<IndexPage> {
                 padding: const EdgeInsets.all(12.0),
                 child: OutlinedButton(
                   child: Text(
-                    'CLASSIC',
+                    'Search & View',
                     style: MaritimeTheme.textTheme.headlineMedium,
                   ),
                   onPressed: () {
