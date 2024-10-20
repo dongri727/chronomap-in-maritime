@@ -1,43 +1,34 @@
 import 'dart:convert';
-import 'package:chronomap_in_maritime/fetch/fetch_ptincipal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_echarts/flutter_echarts.dart';
-import 'fetch/fetch_with_map.dart';
-import 'gl_script.dart' show glScript;
+import '../fetch/fetch_with_map.dart';
+import '../gl_script.dart';
 
-class DBView extends StatefulWidget {
-  const DBView({super.key});
+class Atlantic extends StatefulWidget {
+  final List<int>? principalIds;
+  const Atlantic({super.key, this.principalIds});
 
   @override
-  DBViewState createState() => DBViewState();
+  AtlanticState createState() => AtlanticState();
 }
 
-class DBViewState extends State<DBView> {
+class AtlanticState extends State<Atlantic> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-
-  List<int> maritimeCode = [327,328,329,330,331,332,333,334,336,337,338,339,340,341,342,343,344];
   List<dynamic>? coastLine;
 
   List<Map<String, dynamic>>? maritimeData;
   final FetchWithMapRepository fetchWithMapRepository = FetchWithMapRepository();
-  final FetchPrincipalRepository fetchPrincipalRepository = FetchPrincipalRepository();
 
   @override
   void initState() {
     super.initState();
-    _loadData(maritimeCode);
+    _loadData(widget.principalIds);
     _loadCoastLine();
   }
 
-  int? selectedId;
-
-  Future<void> getPrincipalIds(selectedId) async {
-    await fetchPrincipalRepository.fetchPrincipalByDetailId(detailIds: selectedId);
-  }
-
-  Future<void> _loadData(maritimeCode) async {
-    await fetchWithMapRepository.fetchWithMap(keyNumbers: maritimeCode);
+  Future<void> _loadData(List<int>? principalIds) async {
+    await fetchWithMapRepository.fetchWithMap(keyNumbers: principalIds);
     setState(() {
       maritimeData = fetchWithMapRepository.listWithMap.map((withMap) => {
         "value": [withMap.longitude, withMap.latitude, withMap.logarithm],
@@ -45,26 +36,21 @@ class DBViewState extends State<DBView> {
       }).toList();
     });
   }
-  
+
   Future<void> _loadCoastLine() async {
     final String jsonString = await rootBundle.loadString('assets/json/coastline.json');
     final List<dynamic> jsonData = json.decode(jsonString);
     setState(() {
-      coastLine = jsonData.map((coordinate) => [...coordinate, 895]).toList();
+      coastLine = jsonData.map((coordinate) => [...coordinate, 0]).toList();
     });
   }
-
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      appBar: AppBar(
-        title: const Text('DB View'),
-      ),
       body: Container(
-        constraints: const BoxConstraints.expand( ),
+        constraints: const BoxConstraints.expand(),
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/images/sea.png'),
@@ -93,7 +79,8 @@ class DBViewState extends State<DBView> {
         grid3D: {
           viewControl: {
             alpha: 40,
-            beta: -60
+            beta: -60,
+            projection: 'orthographic'
           }
         },
         xAxis3D: {
@@ -118,8 +105,8 @@ class DBViewState extends State<DBView> {
         },
         zAxis3D: {
           type: 'value',
-          min: 890,
-          max: 900,
+          min: -1000,
+          max: 1000,
           splitLine: {show: false},
           name: 'timeline',
           axisLine: {
@@ -156,6 +143,7 @@ class DBViewState extends State<DBView> {
             ),
           ),
         ),
+
       ),
     );
   }

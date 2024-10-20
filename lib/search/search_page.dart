@@ -4,7 +4,9 @@ import 'package:chronomap_in_maritime/search/result_tab_top.dart';
 import 'package:flutter/material.dart';
 
 import '../serverpod_client.dart';
+import '../utils/tff_format.dart';
 import '../utils/theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -46,7 +48,7 @@ class SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Search'),
+        title: Text(AppLocalizations.of(context)!.searchA),
       ),
       body: Container(
         constraints: const BoxConstraints.expand(),
@@ -60,7 +62,12 @@ class SearchPageState extends State<SearchPage> {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
-              const Text('どの項目で絞り込みますか'),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: HintText(
+                  hintText: AppLocalizations.of(context)!.searchB,
+                  ),
+              ),
               // Chip をリストから生成
               Wrap(
                 spacing: 8.0,
@@ -87,7 +94,7 @@ class SearchPageState extends State<SearchPage> {
               Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: OutlinedButton(
-                  child: Text('Result',
+                  child: Text(AppLocalizations.of(context)!.searchC,
                     style: MaritimeTheme.textTheme.headlineMedium,
                   ),
                   onPressed: () {

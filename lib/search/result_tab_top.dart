@@ -2,7 +2,8 @@ import 'package:acorn_client/acorn_client.dart';
 import 'package:chronomap_in_maritime/scatter/columbus/columbus1st.dart';
 import 'package:chronomap_in_maritime/search/classic_view.dart';
 import 'package:chronomap_in_maritime/search/on_globe_view.dart';
-import 'package:chronomap_in_maritime/search/on_map_view.dart';
+import 'package:chronomap_in_maritime/search/atlantic.dart';
+import 'package:chronomap_in_maritime/search/pacific.dart';
 import 'package:chronomap_in_maritime/utils/theme.dart';
 import 'package:flutter/material.dart';
 import '../../index.dart';
@@ -17,7 +18,7 @@ class ResultTabTop extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: 4,
       child: Scaffold(
         appBar: AppBar(
           flexibleSpace: Container(
@@ -49,7 +50,8 @@ class ResultTabTop extends StatelessWidget {
             indicatorColor: Colors.yellow,
             tabs: const [
               Tab(text: "CLASSIC View"),
-              Tab(text: "onMap View"),
+              Tab(text: "Atlantic View"),
+              Tab(text: "Pacific View"),
               Tab(text: "onGlobe View"),
             ],
           ),
@@ -58,7 +60,8 @@ class ResultTabTop extends StatelessWidget {
           physics: const NeverScrollableScrollPhysics(),
           children: [
             ClassicViewPage(listPrincipal: listPrincipal, principalIds: principalIds),
-            OnMapView(principalIds: principalIds),
+            Atlantic(principalIds: principalIds),
+            Pacific(principalIds: principalIds),
             OnGlobeView(principalIds: principalIds),
           ],
         ),

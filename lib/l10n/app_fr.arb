@@ -17,11 +17,14 @@
   "scalableE": "Si vous trouvez des événements mal placés sur la chronologie, veuillez nous contacter à l'adresse suivante.",
   "addHintA": "Dans la \"ChronoMap\", un événement historique fait référence à une occurrence unique avec des informations sur \"quand et où.\" Par exemple, \"La recherche d'une route vers l'Inde par Christophe Colomb \" n'est pas considéré comme une occurrence unique. L'inscription serait \"12 octobre 1492, : Christophe Colomb atteint l'île de Guanahani dans les Indes occidentales, Bahamas, île de San Salvador\" Si vous souhaitez rendre cela consultable sous \"la recherche d'une route vers l'Inde par Christophe Colomb,\" veuillez ajouter le terme \"Christophe Colomb \" ou \" recherche d'une route vers l'Inde \" dans la version web de la \"ChronoMap\".",
   "indexA": "Enregistrer des Evénements",
-  "indexB": "Vue Evolutive",
+  "indexB": "Chronologie Evolutive",
+  "indexC": "Chercher et Voir",
   "name": "Evénement(dans les 50 lettres)",
   "showOptions": "Efficher et sélectionner des options",
   "newWord": "Entrez le nom de port, île et la mer ",
   "addWord": "Ajouter le mot",
   "ifYouMayKnow": "Si possible, veuillez également entrer les informations suivantes",
-  "search": "Sélectionner le nom d'une personne ou d'un navire, et touchez la loupe 🔍 pour rechercher. Pour une récupération complète, touchez avec le champ laissé vide."
+  "searchA": "Recherche",
+  "searchB": "Qu'est-ce qui restreint votre recherche ?",
+  "searchC": "Confirmer"
 }

@@ -175,7 +175,7 @@ class TimelineRenderObject extends RenderBox {
     // 背景色を描画
     canvas.drawRect(
       Rect.fromLTWH(offset.dx, offset.dy, size.width, size.height),
-      Paint()..color = const Color(0xFF203744), // 好きな色を指定
+      Paint()..color = const Color(0x4D7fffd4), // 好きな色を指定
     );
 
 

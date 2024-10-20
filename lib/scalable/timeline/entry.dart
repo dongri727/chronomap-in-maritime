@@ -10,7 +10,7 @@ class TimelineEntry {
   late TimelineEntryType type;
 
   late String name;//文字表示
-  Color accent = const Color(0x1A44617b); //labelの色
+  Color accent = const Color(0xFF4682b4); //labelの色
 
   /// Each entry constitutes an element of a tree:
   /// Eras are grouped into spanning positions and events are placed into the positions they belong to.

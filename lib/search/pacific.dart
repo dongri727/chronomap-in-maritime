@@ -1,19 +1,20 @@
 import 'dart:convert';
+import 'package:chronomap_in_maritime/fetch/fetch_ptincipal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_echarts/flutter_echarts.dart';
 import '../fetch/fetch_with_map.dart';
-import '../gl_script.dart';
+import '../gl_script.dart' show glScript;
 
-class OnMapView extends StatefulWidget {
+class Pacific extends StatefulWidget {
   final List<int>? principalIds;
-  const OnMapView({super.key, this.principalIds});
+  const Pacific({super.key, this.principalIds});
 
   @override
-  OnMapViewState createState() => OnMapViewState();
+  PacificState createState() => PacificState();
 }
 
-class OnMapViewState extends State<OnMapView> {
+class PacificState extends State<Pacific> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   List<dynamic>? coastLine;
 
@@ -27,11 +28,18 @@ class OnMapViewState extends State<OnMapView> {
     _loadCoastLine();
   }
 
-  Future<void> _loadData(List<int>? principalIds) async {
-    await fetchWithMapRepository.fetchWithMap(keyNumbers: principalIds);
+  double shiftLongitude(double longitude) {
+    // Shift the longitude by 205 degrees, and wrap it around using modulo 360
+    double shifted = longitude + 205.0;
+    if (shifted > 180.0) shifted -= 360.0;
+    return shifted;
+  }
+
+  Future<void> _loadData(maritimeCode) async {
+    await fetchWithMapRepository.fetchWithMap(keyNumbers: maritimeCode);
     setState(() {
       maritimeData = fetchWithMapRepository.listWithMap.map((withMap) => {
-        "value": [withMap.longitude, withMap.latitude, withMap.logarithm],
+        "value": [shiftLongitude(withMap.longitude), withMap.latitude, withMap.logarithm],
         "name": withMap.affair,
       }).toList();
     });
@@ -41,7 +49,12 @@ class OnMapViewState extends State<OnMapView> {
     final String jsonString = await rootBundle.loadString('assets/json/coastline.json');
     final List<dynamic> jsonData = json.decode(jsonString);
     setState(() {
-      coastLine = jsonData.map((coordinate) => [...coordinate, 895]).toList();
+      coastLine = jsonData.map((coordinate) {
+        // Ensure that all values are converted to double
+        double longitude = shiftLongitude((coordinate[0] as num).toDouble());
+        double latitude = (coordinate[1] as num).toDouble();
+        return [longitude, latitude, 0.0]; // Add a z-value of 0.0 for 3D compatibility
+      }).toList();
     });
   }
 
@@ -50,7 +63,7 @@ class OnMapViewState extends State<OnMapView> {
     return Scaffold(
       key: scaffoldKey,
       body: Container(
-        constraints: const BoxConstraints.expand(),
+        constraints: const BoxConstraints.expand( ),
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/images/sea.png'),
@@ -105,8 +118,8 @@ class OnMapViewState extends State<OnMapView> {
         },
         zAxis3D: {
           type: 'value',
-          min: 890,
-          max: 900,
+          min: -1000,
+          max: 1000,
           splitLine: {show: false},
           name: 'timeline',
           axisLine: {
@@ -143,7 +156,6 @@ class OnMapViewState extends State<OnMapView> {
             ),
           ),
         ),
-
       ),
     );
   }

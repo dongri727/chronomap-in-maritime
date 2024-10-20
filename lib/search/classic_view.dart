@@ -1,13 +1,38 @@
 import 'package:acorn_client/acorn_client.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../fetch/fetch_japanese.dart';
 
-class ClassicViewPage extends StatelessWidget {
+class ClassicViewPage extends StatefulWidget {
   final List<Principal> listPrincipal;
   final List<int>? principalIds;
   const ClassicViewPage({super.key, required this.listPrincipal, this.principalIds});
 
   @override
+  ClassicViewPageState createState() => ClassicViewPageState();
+}
+
+class ClassicViewPageState extends State<ClassicViewPage> {
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      fetchJapaneseNamesIfNeeded();
+    });
+  }
+
+  //DB多言語化
+  Future<void> fetchJapaneseNamesIfNeeded() async {
+    final fetchJapaneseRepository = Provider.of<FetchJapaneseRepository>(context, listen: false);
+    if (fetchJapaneseRepository.isJapaneseLanguage(context)) {
+      await fetchJapaneseRepository.fetchAllJapaneseNames();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final fetchJapaneseRepository = Provider.of<FetchJapaneseRepository>(context);
     return Scaffold(
       body: Container(
         constraints: const BoxConstraints.expand(),
@@ -25,8 +50,9 @@ class ClassicViewPage extends StatelessWidget {
               // 取得されたListをListTileとして表示
               Expanded(
                 child: ListView.builder(
-                  itemCount: listPrincipal.length,
+                  itemCount: widget.listPrincipal.length,
                   itemBuilder: (context, index) {
+                    final principalId = widget.listPrincipal[index].id;
                     return Card(
                       margin:
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -36,20 +62,22 @@ class ClassicViewPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              '${listPrincipal[index].annee}-${listPrincipal[index].month}-${listPrincipal[index].day}',
+                              '${widget.listPrincipal[index].annee}-${widget.listPrincipal[index].month}-${widget.listPrincipal[index].day}',
                               style: const TextStyle(fontSize: 14),
                             ),
                             const SizedBox(
                               height: 4,
                             ),
-                            Text( listPrincipal[index].affair,
-                              style: const TextStyle(fontSize: 16),
+                            Text(
+                              fetchJapaneseRepository.isJapaneseLanguage(context)
+                                  ? fetchJapaneseRepository.getJapaneseName(principalId!)
+                                  : widget.listPrincipal[index].affair,
                             ),
                             const SizedBox(
                               height: 2,
                             ),
                             Text(
-                              '${listPrincipal[index].location}, ${listPrincipal[index].precise}',
+                              '${widget.listPrincipal[index].location}, ${widget.listPrincipal[index].precise}',
                               style: const TextStyle(fontSize: 12),
                             ),
                           ],

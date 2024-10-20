@@ -20,8 +20,8 @@ class Timeline {
   static const double gutterLeft = 45.0;//Space to the left of the scale
   static const double edgeRadius = 4.0;
   static const double minChildLength = 50.0;
-  static const double bubblesHeight = 30.0;
-  static const double bubblePadding = 5.0;
+  static const double bubblesHeight = 50.0;
+  static const double bubblePadding = 8.0;
   static const double bubbleTextHeight = 15.0;
   static const double parallax = 100.0;
   static const double initialViewportPadding = 100.0;
@@ -210,8 +210,8 @@ class Timeline {
       timelineEntry.start = year is int ? year.toDouble() : year;
 
       TickColors tickColors = TickColors()
-        ..long = Colors.black
-        ..short = Colors.black
+        ..long = Colors.grey
+        ..short = Colors.grey
         ..text = Colors.grey
       //..start = timelineEntry.start
         ..screenY = 0.0;

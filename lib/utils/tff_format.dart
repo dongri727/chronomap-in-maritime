@@ -1,3 +1,4 @@
+import 'package:chronomap_in_maritime/utils/theme.dart';
 import 'package:flutter/material.dart';
 
 class TffFormat extends StatelessWidget {
@@ -45,6 +46,32 @@ class TffFormat extends StatelessWidget {
         ),
       ),
       onChanged: onChanged,
+    );
+  }
+}
+
+class HintText extends StatelessWidget {
+  final String hintText;
+
+  const HintText({
+    required this.hintText,
+
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Text(
+        hintText,
+        textAlign: TextAlign.left,
+        style: MaritimeTheme.textTheme.headlineMedium,
+/*        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 20,
+        ),*/
+      ),
     );
   }
 }

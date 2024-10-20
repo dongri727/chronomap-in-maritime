@@ -182,18 +182,21 @@ class TimelineWidgetState extends State<TimelineWidget> {
                 children: <Widget>[
                   Container(
                     height: devicePadding.top,
-                    color: const Color(0x99E9E9E9),
+                    color: const Color(0x99E9E9E9),//上のすき間
                   ),
                   Container(
-                      color: const Color(0x99E9E9E9),
-                      height: 56.0,
+                      height: 60.0,
                       width: double.infinity,
+                      decoration: const BoxDecoration(
+                          image: DecorationImage(image: AssetImage('assets/images/sea.png'),
+                              fit: BoxFit.cover)
+                      ),
                       child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             IconButton(
                               padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-                              //color: _headerTextColor ?? Colors.black.withOpacity(0.5),
+                              color: Colors.white,
                               alignment: Alignment.centerLeft,
                               icon: const Icon(Icons.arrow_back),
                               onPressed: () {
@@ -203,9 +206,10 @@ class TimelineWidgetState extends State<TimelineWidget> {
                             ),
                             const Text(
                               "SCALABLE VIEW",
-                              textAlign: TextAlign.left,
+                              textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 20.0,
+                                color: Colors.white
                               ),
                             ),
                           ]))

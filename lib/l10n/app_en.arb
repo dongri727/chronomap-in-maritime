@@ -17,11 +17,14 @@
   "scalableE": "If you find any events plotted in the wrong position, please contact us at the following.",
   "addHintA": "In the \"ChronoMap\", a historical event refers to a single occurrence with information on \"when and where.\" For example, \"Columbus' search for a route to India\" is not considered a single occurrence. The registration would be \"October 12, 1492: Columbus reaches the island of Guanahani in the West Indies, Bahamas, San Salvador Island.\" If you want to make this searchable as \"Columbus' search for a route to India\" please add the term \"Columbus\" or \"search for a route to India\" in the web version of the \"ChronoMap\".",
   "indexA": "Register Events",
-  "indexB": "Scalable View",
+  "indexB": "Scalable Timeline",
+  "indexC": "Search & View",
   "name": "Event(within 50 letters)",
   "showOptions": "Show Options",
   "newWord": "another port, island or sea",
   "addWord": "add a new word",
   "ifYouMayKnow": "Please enter if you may know",
-  "search": "Select the name of person or vessel, and touch the 🔍 to search. For a complete retrieval, touch with the field left blank."
+  "searchA": "Search",
+  "searchB": "What narrows your search?",
+  "searchC": "Confirm"
 }

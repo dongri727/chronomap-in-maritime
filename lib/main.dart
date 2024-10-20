@@ -1,8 +1,8 @@
-import 'package:chronomap_in_maritime/data_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'cover.dart';
+import 'fetch/fetch_japanese.dart';
 import 'scalable/bloc_provider.dart';
 import 'scalable/timeline/timeline.dart';
 import 'serverpod_client.dart';
@@ -58,7 +58,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => DataRepository()),
+        ChangeNotifierProvider(create: (_) => FetchJapaneseRepository()),
     ],
       child: BlocProvider(
         t: Timeline(Theme.of(context).platform),

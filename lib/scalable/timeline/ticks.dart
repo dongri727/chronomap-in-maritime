@@ -95,7 +95,8 @@ class Ticks {
 
     /// Draw the gutter.
     canvas.drawRect(Rect.fromLTWH(offset.dx, offset.dy, gutterWidth, height),
-        Paint()..color = const Color.fromRGBO(246, 246, 246, 0.95));
+        Paint()..color = const Color(0xFF4682b4));
+
     //}
 
     ///文字の描画？

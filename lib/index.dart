@@ -6,7 +6,7 @@ import 'package:chronomap_in_maritime/test1_page.dart';
 import 'package:chronomap_in_maritime/utils/theme.dart';
 import 'package:flutter/material.dart';
 import 'add_events/principal_page.dart';
-import 'scatter_test.dart';
+import 'search/pacific.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class IndexPage extends StatefulWidget {
@@ -59,7 +59,22 @@ class _IndexPageState extends State<IndexPage> {
                 padding: const EdgeInsets.all(12.0),
                 child: OutlinedButton(
                   child: Text(
-                    'Search & View',
+                    AppLocalizations.of(context)!.indexB,
+                    style: MaritimeTheme.textTheme.headlineMedium,
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const Scalable()));
+                  },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: OutlinedButton(
+                  child: Text(
+                      AppLocalizations.of(context)!.indexC,
                     style: MaritimeTheme.textTheme.headlineMedium,
                   ),
                   onPressed: () {
@@ -84,37 +99,8 @@ class _IndexPageState extends State<IndexPage> {
                   },
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: OutlinedButton(
-                  child: Text('scatter-test',
-                    //AppLocalizations.of(context)!.indexB,
-                    style: MaritimeTheme.textTheme.headlineMedium,
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const DBView()));
-                  },
-                ),
-              ),
 
-              Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: OutlinedButton(
-                  child: Text('scalable',
-                    //AppLocalizations.of(context)!.indexD,
-                    style: MaritimeTheme.textTheme.headlineMedium,
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const Scalable()));
-                  },
-                ),
-              ),
+
               Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: OutlinedButton(
