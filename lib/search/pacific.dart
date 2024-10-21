@@ -1,8 +1,9 @@
 import 'dart:convert';
-import 'package:chronomap_in_maritime/fetch/fetch_ptincipal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_echarts/flutter_echarts.dart';
+import 'package:provider/provider.dart';
+import '../fetch/fetch_japanese.dart';
 import '../fetch/fetch_with_map.dart';
 import '../gl_script.dart' show glScript;
 
@@ -24,8 +25,17 @@ class PacificState extends State<Pacific> {
   @override
   void initState() {
     super.initState();
+    fetchJapaneseNamesIfNeeded();
     _loadData(widget.principalIds);
     _loadCoastLine();
+  }
+
+  //DB多言語化
+  Future<void> fetchJapaneseNamesIfNeeded() async {
+    final fetchJapaneseRepository = Provider.of<FetchJapaneseRepository>(context, listen: false);
+    if (fetchJapaneseRepository.isJapaneseLanguage(context)) {
+      await fetchJapaneseRepository.fetchAllJapaneseNames();
+    }
   }
 
   double shiftLongitude(double longitude) {
@@ -36,11 +46,15 @@ class PacificState extends State<Pacific> {
   }
 
   Future<void> _loadData(maritimeCode) async {
+    final FetchJapaneseRepository fetchJapaneseRepository = FetchJapaneseRepository();
+    await fetchJapaneseRepository.fetchAllJapaneseNames();
     await fetchWithMapRepository.fetchWithMap(keyNumbers: maritimeCode);
     setState(() {
       maritimeData = fetchWithMapRepository.listWithMap.map((withMap) => {
         "value": [shiftLongitude(withMap.longitude), withMap.latitude, withMap.logarithm],
-        "name": withMap.affair,
+        "name": fetchJapaneseRepository.isJapaneseLanguage(context)
+            ? fetchJapaneseRepository.getJapaneseName(withMap.principalId)
+            : withMap.affair,
       }).toList();
     });
   }

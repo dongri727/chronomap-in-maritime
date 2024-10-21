@@ -1,5 +1,4 @@
 import 'package:acorn_client/acorn_client.dart';
-import 'package:chronomap_in_maritime/scatter/columbus/columbus1st.dart';
 import 'package:chronomap_in_maritime/search/classic_view.dart';
 import 'package:chronomap_in_maritime/search/on_globe_view.dart';
 import 'package:chronomap_in_maritime/search/atlantic.dart';

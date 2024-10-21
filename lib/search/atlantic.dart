@@ -1,8 +1,11 @@
 import 'dart:convert';
+import 'package:acorn_client/acorn_client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_echarts/flutter_echarts.dart';
+import 'package:provider/provider.dart';
 import '../fetch/fetch_with_map.dart';
+import '../fetch/fetch_japanese.dart';
 import '../gl_script.dart';
 
 class Atlantic extends StatefulWidget {
@@ -23,16 +26,29 @@ class AtlanticState extends State<Atlantic> {
   @override
   void initState() {
     super.initState();
+    fetchJapaneseNamesIfNeeded();
     _loadData(widget.principalIds);
     _loadCoastLine();
   }
 
+  //DB多言語化
+  Future<void> fetchJapaneseNamesIfNeeded() async {
+    final fetchJapaneseRepository = Provider.of<FetchJapaneseRepository>(context, listen: false);
+    if (fetchJapaneseRepository.isJapaneseLanguage(context)) {
+      await fetchJapaneseRepository.fetchAllJapaneseNames();
+    }
+  }
+
   Future<void> _loadData(List<int>? principalIds) async {
+    final FetchJapaneseRepository fetchJapaneseRepository = FetchJapaneseRepository();
+    await fetchJapaneseRepository.fetchAllJapaneseNames();
     await fetchWithMapRepository.fetchWithMap(keyNumbers: principalIds);
     setState(() {
       maritimeData = fetchWithMapRepository.listWithMap.map((withMap) => {
         "value": [withMap.longitude, withMap.latitude, withMap.logarithm],
-        "name": withMap.affair,
+          "name": fetchJapaneseRepository.isJapaneseLanguage(context)
+          ? fetchJapaneseRepository.getJapaneseName(withMap.principalId)
+            : withMap.affair,
       }).toList();
     });
   }
