@@ -5,6 +5,7 @@ import 'cover.dart';
 import 'fetch/fetch_japanese.dart';
 import 'scalable/bloc_provider.dart';
 import 'scalable/timeline/timeline.dart';
+import 'search/search_model.dart';
 import 'serverpod_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -59,12 +60,13 @@ class _MyAppState extends State<MyApp> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => FetchJapaneseRepository()),
+        ChangeNotifierProvider(create: (_) => SearchModel()),
     ],
       child: BlocProvider(
         t: Timeline(Theme.of(context).platform),
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'Chronomap in Space',
+          title: 'Chronomap in Maritime',
           theme: ThemeData(
             textTheme: GoogleFonts.tsukimiRoundedTextTheme(
                 Theme.of(context).textTheme

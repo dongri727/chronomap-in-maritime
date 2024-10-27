@@ -1,70 +1,24 @@
 import 'dart:convert';
-import 'package:acorn_client/acorn_client.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_echarts/flutter_echarts.dart';
-import 'package:provider/provider.dart';
-import '../fetch/fetch_with_map.dart';
-import '../fetch/fetch_japanese.dart';
 import '../gl_script.dart';
 
-class Atlantic extends StatefulWidget {
-  final List<int>? principalIds;
-  const Atlantic({super.key, this.principalIds});
-
-  @override
-  AtlanticState createState() => AtlanticState();
-}
-
-class AtlanticState extends State<Atlantic> {
-  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-  List<dynamic>? coastLine;
-
-  List<Map<String, dynamic>>? maritimeData;
-  final FetchWithMapRepository fetchWithMapRepository = FetchWithMapRepository();
-
-  @override
-  void initState() {
-    super.initState();
-    fetchJapaneseNamesIfNeeded();
-    _loadData(widget.principalIds);
-    _loadCoastLine();
-  }
-
-  //DB多言語化
-  Future<void> fetchJapaneseNamesIfNeeded() async {
-    final fetchJapaneseRepository = Provider.of<FetchJapaneseRepository>(context, listen: false);
-    if (fetchJapaneseRepository.isJapaneseLanguage(context)) {
-      await fetchJapaneseRepository.fetchAllJapaneseNames();
-    }
-  }
-
-  Future<void> _loadData(List<int>? principalIds) async {
-    final FetchJapaneseRepository fetchJapaneseRepository = FetchJapaneseRepository();
-    await fetchJapaneseRepository.fetchAllJapaneseNames();
-    await fetchWithMapRepository.fetchWithMap(keyNumbers: principalIds);
-    setState(() {
-      maritimeData = fetchWithMapRepository.listWithMap.map((withMap) => {
-        "value": [withMap.longitude, withMap.latitude, withMap.logarithm],
-          "name": fetchJapaneseRepository.isJapaneseLanguage(context)
-          ? fetchJapaneseRepository.getJapaneseName(withMap.principalId)
-            : withMap.affair,
-      }).toList();
-    });
-  }
-
-  Future<void> _loadCoastLine() async {
-    final String jsonString = await rootBundle.loadString('assets/json/coastline.json');
-    final List<dynamic> jsonData = json.decode(jsonString);
-    setState(() {
-      coastLine = jsonData.map((coordinate) => [...coordinate, 0]).toList();
-    });
-  }
+class Atlantic extends StatelessWidget {
+  final List<Map<String, dynamic>>? maritimeData;
+  final List<dynamic>? coastLine;
+  final List<dynamic>? ridgeLine;
+  final List<dynamic>? trenchLine;
+  const Atlantic({
+    super.key,
+    this.maritimeData,
+    this.coastLine,
+    this.ridgeLine,
+    this.trenchLine
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffoldKey,
       body: Container(
         constraints: const BoxConstraints.expand(),
         decoration: const BoxDecoration(
@@ -151,7 +105,19 @@ class AtlanticState extends State<Atlantic> {
               symbolSize: 3,
               data: ${json.encode(coastLine)},
               itemStyle: { color: 'white' } 
-            },     
+            }, 
+            {
+              type: 'scatter3D',
+              symbolSize: 3,
+              data: ${json.encode(ridgeLine)},
+                itemStyle: {color: '#bc8f8f'}              
+            }, 
+            {
+              type: 'scatter3D',
+              symbolSize: 3,
+              data: ${json.encode(trenchLine)},
+                itemStyle: {color: '#800000'}              
+            },       
           ]
         };
             })()
@@ -159,7 +125,6 @@ class AtlanticState extends State<Atlantic> {
             ),
           ),
         ),
-
       ),
     );
   }

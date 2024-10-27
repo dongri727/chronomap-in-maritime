@@ -13,5 +13,8 @@ List<Map<String, dynamic>> targets = [
   { "id": 769, "name": "HMS Beagle"},
   { "id": 775, "name": "Charles Darwin"},
   { "id": 695, "name": "ALL Maritime"},
-  { "id": 820, "name": "Ancestors"}
+  { "id": 820, "name": "Ancestors"},
+  { "id": 40, "name": "Deep-Sea Exploration"},
+  { "id": 840, "name": "Under the Sea"},
+  { "id": 843, "name": "Indian Ocean Rim"},
 ];

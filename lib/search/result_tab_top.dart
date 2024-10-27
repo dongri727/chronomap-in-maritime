@@ -12,7 +12,34 @@ import '../../utils/navi_button.dart';
 class ResultTabTop extends StatelessWidget {
   final List<Principal> listPrincipal;
   final List<int>? principalIds;
-  const ResultTabTop({super.key, required this.listPrincipal, this.principalIds});
+  final List<Map<String, dynamic>> maritimeData;
+  final List<Map<String, dynamic>> pacificData;
+  final List<dynamic> coastLine;
+  final List<dynamic> pacificLine;
+  final List<dynamic> globeLine;
+  final List<dynamic> ridgeLine;
+  final List<dynamic> pacificRidge;
+  final List<dynamic> globeRidge;
+  final List<dynamic> trenchLine;
+  final List<dynamic> pacificTrench;
+  final List<dynamic> globeTrench;
+
+  const ResultTabTop({
+    super.key,
+    required this.listPrincipal,
+    this.principalIds,
+    required this.maritimeData,
+    required this.pacificData,
+    required this.coastLine,
+    required this.pacificLine,
+    required this.globeLine,
+    required this.ridgeLine,
+    required this.pacificRidge,
+    required this.globeRidge,
+    required this.trenchLine,
+    required this.pacificTrench,
+    required this.globeTrench,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -59,9 +86,9 @@ class ResultTabTop extends StatelessWidget {
           physics: const NeverScrollableScrollPhysics(),
           children: [
             ClassicViewPage(listPrincipal: listPrincipal, principalIds: principalIds),
-            Atlantic(principalIds: principalIds),
-            Pacific(principalIds: principalIds),
-            OnGlobeView(principalIds: principalIds),
+            Atlantic(maritimeData: maritimeData, coastLine: coastLine, ridgeLine: ridgeLine, trenchLine: trenchLine),
+            Pacific(pacificData: pacificData, pacificLine: pacificLine, pacificRidge: pacificRidge, pacificTrench: pacificTrench),
+            OnGlobeView(maritimeData: maritimeData, globeLine: globeLine, globeRidge: globeRidge, globeTrench: globeTrench),
           ],
         ),
       ),

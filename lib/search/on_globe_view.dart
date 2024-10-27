@@ -1,49 +1,24 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_echarts/flutter_echarts.dart';
-import '../fetch/fetch_with_map.dart';
 import '../../gl_script.dart';
 
-class OnGlobeView extends StatefulWidget {
-  final List<int>? principalIds;
-  const OnGlobeView({super.key, this.principalIds});
+class OnGlobeView extends StatelessWidget {
+  final List<Map<String, dynamic>>? maritimeData;
+  final List<dynamic>? globeLine;
+  final List<dynamic>? globeRidge;
+  final List<dynamic>? globeTrench;
 
-  @override
-  OnGlobeViewState createState() => OnGlobeViewState();
-}
+  OnGlobeView({
+    super.key,
+    this.maritimeData,
+    this.globeLine,
+    this.globeRidge,
+    this.globeTrench
+  });
 
-class OnGlobeViewState extends State<OnGlobeView> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-  List<Map<String, dynamic>>? maritimeData;
-  final FetchWithMapRepository fetchWithMapRepository = FetchWithMapRepository();
-  List<dynamic>? coastLine;
-  Future<Map<String, List<dynamic>>>? _dataFuture;
 
-  @override
-  void initState() {
-    super.initState();
-    _dataFuture = loadAndProcessData();
-  }
-
-  Future<Map<String, List<dynamic>>> loadAndProcessData() async {
-    // coastline.jsonの読み込み
-    String coastlineJsonString = await rootBundle.loadString('assets/json/coastline.json');
-    List<dynamic> coastlineData = json.decode(coastlineJsonString);
-    coastlineData = coastlineData.map((dataItem) => [dataItem[0], dataItem[1], 7]).toList();
-
-    // maritimeDataの取得
-    await fetchWithMapRepository.fetchWithMap(keyNumbers: widget.principalIds);
-    List<Map<String, dynamic>> maritimeData = fetchWithMapRepository.listWithMap.map((withMap) => {
-      "value": [withMap.longitude, withMap.latitude, withMap.logarithm],
-      "name": withMap.affair,
-    }).toList();
-
-    return {
-      'coastline': coastlineData,
-      'maritimeData': maritimeData,
-    };
-  }
 
   String createOption(Map<String, List<dynamic>> data) {
     return '''
@@ -103,12 +78,34 @@ class OnGlobeViewState extends State<OnGlobeView> {
           type: "scatter3D",
           coordinateSystem: "globe",
           blendMode: "lighter",
-          symbolSize: 2,
+          symbolSize: 5,
           itemStyle: {
-            color: "rgb(255, 255, 255)",
+            color: "white",
             opacity: 1
           },
-          data: ${json.encode(data['coastline'])}
+          data: ${json.encode(data['coastline'])},
+        },
+        {
+          type: "scatter3D",
+          coordinateSystem: "globe",
+          blendMode: "lighter",
+          symbolSize: 5,
+          itemStyle: {
+            color: "#adff2f",
+            opacity: 1
+          },
+          data: ${json.encode(data['ridgeline'])},
+        },
+        {
+          type: "scatter3D",
+          coordinateSystem: "globe",
+          blendMode: "lighter",
+          symbolSize: 5,
+          itemStyle: {
+            color: "#008000",
+            opacity: 1
+          },
+          data: ${json.encode(data['trenchline'])},
         },
         {
           type: "scatter3D",
@@ -138,24 +135,29 @@ class OnGlobeViewState extends State<OnGlobeView> {
 
   @override
   Widget build(BuildContext context) {
+    if (maritimeData == null || globeLine == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    // Create data map for creating the option
+    final data = {
+      'coastline': globeLine!,
+      'ridgeline': globeRidge!,
+      'trenchline': globeTrench!,
+      'maritimeData': maritimeData!,
+    };
+
+    // Generate the ECharts option string
+    String option = createOption(data);
+
     return Scaffold(
       key: scaffoldKey,
-      body: FutureBuilder<Map<String, List<dynamic>>>(
-        future: _dataFuture,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            String option = createOption(snapshot.data!);
-            return Echarts(
-              extensions: const [glScript],
-              option: option,
-            );
-          } else if (snapshot.hasError) {
-            return const Center(child: Text('データの読み込み中にエラーが発生しました'));
-          } else {
-            return const Center(child: CircularProgressIndicator());
-          }
-        },
+      body: Echarts(
+        extensions: const [glScript],
+        option: option,
       ),
     );
   }
 }
+
+

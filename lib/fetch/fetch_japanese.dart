@@ -9,13 +9,22 @@ class FetchJapaneseRepository with ChangeNotifier {
   Future<void> fetchAllJapaneseNames() async {
     try {
       japaneseList = await client.japanese.getAllJapaneseNames();
+      debugPrint('Fetched Japanese names: ${japaneseList.length} items');
     } catch (e) {
       debugPrint('Failed to fetch Japanese names: $e');
     }
     notifyListeners();
   }
 
+/*  String getJapaneseName(int principalId) {
+    print("Searching for principalId: $principalId in ${japaneseList?.map((item) => item.principalId).toList()}");
+    final japanese = japaneseList?.firstWhere((item) => item.principalId == principalId, orElse: () => null);
+    return japanese?.japaneseName ?? 'N/A';
+  }*/
+
+
   String getJapaneseName(int principalId) {
+    debugPrint('Looking for principalId: $principalId');
     var japanese = japaneseList.firstWhere(
           (item) => item.principalId == principalId,
       orElse: () => Japanese(principalId: principalId, japaneseName: 'N/A'),
@@ -25,6 +34,7 @@ class FetchJapaneseRepository with ChangeNotifier {
 
   bool isJapaneseLanguage(BuildContext context) {
     var locale = AppLocalizations.of(context);
+    debugPrint('Current locale: ${locale?.localeName}');
     if (locale == null) {
       debugPrint('AppLocalizations.of(context) returned null');
       return false;

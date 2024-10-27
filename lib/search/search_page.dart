@@ -1,8 +1,11 @@
 import 'package:acorn_client/acorn_client.dart';
+import 'package:chronomap_in_maritime/fetch/fetch_japanese.dart';
 import 'package:chronomap_in_maritime/lists/targets_list.dart';
 import 'package:chronomap_in_maritime/search/result_tab_top.dart';
+import 'package:chronomap_in_maritime/search/search_model.dart';
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
+import '../fetch/fetch_japanese.dart';
 import '../serverpod_client.dart';
 import '../utils/tff_format.dart';
 import '../utils/theme.dart';
@@ -19,23 +22,7 @@ class SearchPageState extends State<SearchPage> {
   final List<Map<String, dynamic>> items = targets;
 
   // 選択された id を格納する変数
-  int? selectedId;
-  List<Principal> listPrincipal = [];
-  List<int> principalIds = [];
-
-  Future<void> fetchPrincipalByDetailId({List<int>? detailIds}) async {
-    try {
-      listPrincipal =
-      await client.principal.getPrincipalByDetailIds(detailIds: detailIds);
-      principalIds = listPrincipal.map((item) => item.id as int).toList();
-      setState(() {
-        listPrincipal = listPrincipal;
-      });
-    } on Exception catch (e) {
-      debugPrint('$e');
-    }
-  }
-
+  int? selectedTargetId;
 
   @override
   void initState() {
@@ -46,6 +33,7 @@ class SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
+    final searchModel = Provider.of<SearchModel>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.searchA),
@@ -71,20 +59,27 @@ class SearchPageState extends State<SearchPage> {
               // Chip をリストから生成
               Wrap(
                 spacing: 8.0,
-                children: items.map((item) {
+                children: targets.map((item) {
                   return ChoiceChip(
                     label: Text(item['name']),
-                    selected: selectedId == item['id'],
+                    selected: selectedTargetId == item['id'],
                     onSelected: (bool isSelected) async {
                       setState(() {
-                        selectedId = isSelected ? item['id'] : null;
+                        selectedTargetId = isSelected ? item['id'] : null;
                       });
 
-                      print(selectedId);
+                      // Chipが選択されたら全ての関数を走らせて一括で結果を取る
+                      if (selectedTargetId != null) {
+                        await searchModel.fetchJapaneseNamesIfNeeded(context); //まず日本語を全件取る。
+                        await searchModel.fetchPrincipalByDetailId(detailIds: [selectedTargetId!]); //principalを取る。
 
-                      // Chipが選択されたらfetchPrincipalByDetailIdを呼び出す
-                      if (selectedId != null) {
-                        await fetchPrincipalByDetailId(detailIds: [selectedId!]);
+                        if (!context.mounted) return;
+                        await searchModel.fetchMapData(searchModel.principalIds, context); //principalに相当するMapを取り、対応する日本語を取り込む。
+                        print(searchModel.principalIds);
+
+                        await searchModel.fetchCoastLine(); //海岸線を取る。
+                        await searchModel.fetchRidgeLine(); //ridgeを取る
+                        await searchModel.fetchTrenchLine(); //trenchを取る
                       }
                     },
                   );
@@ -101,7 +96,21 @@ class SearchPageState extends State<SearchPage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ResultTabTop(listPrincipal: listPrincipal, principalIds: principalIds)));
+                            builder: (context) => ResultTabTop(
+                              listPrincipal: searchModel.listPrincipal,
+                              principalIds: searchModel.principalIds,
+                              maritimeData: searchModel.maritimeData!,
+                              pacificData: searchModel.pacificData!,
+                              coastLine: searchModel.coastLine!,
+                              pacificLine: searchModel.pacificLine!,
+                              globeLine: searchModel.globeLine!,
+                              ridgeLine: searchModel.ridgeLine!,
+                              pacificRidge: searchModel.pacificRidge!,
+                              globeRidge: searchModel.globeRidge!,
+                              trenchLine: searchModel.trenchLine!,
+                              pacificTrench: searchModel.pacificTrench!,
+                              globeTrench: searchModel.globeTrench!,
+                            )));
                   },
                 ),
               ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../hints/add_hint_page.dart';
 import '../index.dart';
+import '../lists/targets_list.dart';
 import '../utils/blank_text_format.dart';
 import '../utils/button_format.dart';
 import '../utils/chips_format.dart';
@@ -140,16 +141,42 @@ class TabletBody extends StatelessWidget {
                               )),
                           Expanded(
                               flex: 2,
-                              child: Padding(
-                                padding: const EdgeInsets.all(20.0),
-                                child: TffFormat(
-                                  hintText: AppLocalizations.of(context)!.name,
-                                  onChanged: (text) {
-                                    model.setNewName(text);
-                                  },
-                                  tffColor1: const Color(0xFF2f4f4f),
-                                  tffColor2: const Color(0x99e6e6fa),
-                                ),
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(20.0),
+                                    child: TffFormat(
+                                      hintText: AppLocalizations.of(context)!.name,
+                                      onChanged: (text) {
+                                        model.setNewName(text);
+                                      },
+                                      tffColor1: const Color(0xFF2f4f4f),
+                                      tffColor2: const Color(0x99e6e6fa),
+                                    ),
+                                  ),
+/*                                  Padding(
+                                      padding: const EdgeInsets.all(20.0),
+                                    child:               Wrap(
+                                      spacing: 8.0,
+                                      children: targets.map((item) {
+                                        return ChoiceChip(
+                                          label: Text(item['name']),
+                                          selected: selectedTargetId == item['id'],
+                                          onSelected: (bool isSelected) async {
+                                            setState(() {
+                                              selectedTargetId = isSelected ? item['id'] : null;
+                                            });
+
+                                            // Chipが選択されたら全ての関数を走らせて一括で結果を取る
+                                            if (selectedTargetId != null) {
+
+                                            }
+                                          },
+                                        );
+                                      }).toList(),
+                                    ),
+                                  ),*/
+                                ],
                               ))
                         ],
                       ),
