@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../hints/add_hint_page.dart';
 import '../index.dart';
-import '../lists/targets_list.dart';
 import '../utils/blank_text_format.dart';
 import '../utils/button_format.dart';
 import '../utils/chips_format.dart';
@@ -61,6 +60,11 @@ class TabletBody extends StatelessWidget {
             default:
               optionsO = model.preciseOption;
           }
+
+          // targetリストをアルファベット順に並べる
+          //final sortedTargets = model.items..sort((a, b) => a['name'].compareTo(b['name']));
+
+
           return Scaffold(
             appBar: AppBar(
               leading: const NavigationButton(
@@ -144,7 +148,7 @@ class TabletBody extends StatelessWidget {
                               child: Column(
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.all(20.0),
+                                    padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
                                     child: TffFormat(
                                       hintText: AppLocalizations.of(context)!.name,
                                       onChanged: (text) {
@@ -154,28 +158,44 @@ class TabletBody extends StatelessWidget {
                                       tffColor2: const Color(0x99e6e6fa),
                                     ),
                                   ),
-/*                                  Padding(
-                                      padding: const EdgeInsets.all(20.0),
-                                    child:               Wrap(
+                                  Row(
+                                    children: [
+                                      const Expanded(
+                                        flex: 1,
+                                          child: Padding(
+                                            padding: EdgeInsets.fromLTRB(20,8,20,8),
+                                            child: HintText(hintText: 'Select your tag'),
+                                          )),
+                                      Expanded(
+                                        flex: 1,
+                                        child: Padding(
+                                          padding: const EdgeInsets.fromLTRB(20,8,20,8),
+                                          child: ShadowedContainer(
+                                              child: ButtonFormat(
+                                                  label: 'Show tags',
+                                                  onPressed: model.toggleShowChips,
+                                              )),
+                                        ),
+                                      ),
+
+                                    ],
+                                  ),
+                                  if (model.showChips)
+                                  Padding(
+                                      padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+                                    child: Wrap(
                                       spacing: 8.0,
-                                      children: targets.map((item) {
+                                      children: model.currentTargetsList.map((item) {
                                         return ChoiceChip(
-                                          label: Text(item['name']),
-                                          selected: selectedTargetId == item['id'],
+                                          label: Text(item['specialite']),
+                                          selected: model.selectedTargetId == item['detailId'],
                                           onSelected: (bool isSelected) async {
-                                            setState(() {
-                                              selectedTargetId = isSelected ? item['id'] : null;
-                                            });
-
-                                            // Chipが選択されたら全ての関数を走らせて一括で結果を取る
-                                            if (selectedTargetId != null) {
-
-                                            }
+                                            model.setSelectedTargetId(isSelected ? item['detailId'] : null);
                                           },
                                         );
                                       }).toList(),
                                     ),
-                                  ),*/
+                                  ),
                                 ],
                               ))
                         ],
@@ -383,6 +403,42 @@ class TabletBody extends StatelessWidget {
                                     ),
                                   ],
                                 ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Wrap(
+                                    spacing: 5.0,
+                                    children: model.currentDisplayList.map((item) {
+                                      return ChoiceSIFormat(
+                                        // 国名・海洋名を表示する場合
+                                          choiceSIList: model.selectedOption == 'Current Country-name' ||
+                                              model.selectedOption == 'Nom actuel du pays' ||
+                                              model.selectedOption == '現在の国名' ||
+                                              model.selectedOption == 'Ocean-name' ||
+                                              model.selectedOption == 'Nom de l\'océan' ||
+                                              model.selectedOption == '海洋名'
+                                              ? model.filtersLocation // 国名・海洋名を表示
+                                              : model.filtersPlaces,    // 地名・海域名を表示
+                                          choiceSIKey: item,
+                                          onChoiceSISelected: (choiceSIKey) {
+                                            // 選択された要素に基づき更新処理
+                                            if (model.selectedOption == 'Current Country-name' ||
+                                                model.selectedOption == 'Nom actuel du pays' ||
+                                                model.selectedOption == '現在の国名' ||
+                                                model.selectedOption == 'Ocean-name' ||
+                                                model.selectedOption == 'Nom de l\'océan' ||
+                                                model.selectedOption == '海洋名') {
+                                              // 国名・海洋名の場合
+                                              model.chosenLocation = choiceSIKey;
+                                              model.updateLocation(choiceSIKey);
+                                            } else {
+                                              // 地名・海域名の場合
+                                              model.chosenPlace = choiceSIKey;
+                                              model.updatePrecise(choiceSIKey);
+                                            }
+                                          });
+                                    }).toList(),
+                                  ),
+                                ),
 
                                 Padding(
                                     padding: const EdgeInsets.fromLTRB(
@@ -458,42 +514,6 @@ class TabletBody extends StatelessWidget {
                               ],
                             ))
                       ]),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Wrap(
-                          spacing: 5.0,
-                          children: model.currentDisplayList.map((item) {
-                            return ChoiceSIFormat(
-                              // 国名・海洋名を表示する場合
-                                choiceSIList: model.selectedOption == 'Current Country-name' ||
-                                    model.selectedOption == 'Nom actuel du pays' ||
-                                    model.selectedOption == '現在の国名' ||
-                                    model.selectedOption == 'Ocean-name' ||
-                                    model.selectedOption == 'Nom de l\'océan' ||
-                                    model.selectedOption == '海洋名'
-                                    ? model.filtersLocation // 国名・海洋名を表示
-                                    : model.filtersSeas,    // 地名・海域名を表示
-                                choiceSIKey: item,
-                                onChoiceSISelected: (choiceSIKey) {
-                                  // 選択された要素に基づき更新処理
-                                  if (model.selectedOption == 'Current Country-name' ||
-                                      model.selectedOption == 'Nom actuel du pays' ||
-                                      model.selectedOption == '現在の国名' ||
-                                      model.selectedOption == 'Ocean-name' ||
-                                      model.selectedOption == 'Nom de l\'océan' ||
-                                      model.selectedOption == '海洋名') {
-                                    // 国名・海洋名の場合
-                                    model.chosenLocation = choiceSIKey;
-                                    model.updateLocation(choiceSIKey);
-                                  } else {
-                                    // 地名・海域名の場合
-                                    model.chosenSea = choiceSIKey;
-                                    model.updatePrecise(choiceSIKey);
-                                  }
-                                });
-                          }).toList(),
-                        ),
-                      ),
                     ],
                   ),
                 ),

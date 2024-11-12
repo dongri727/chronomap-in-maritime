@@ -1,7 +1,9 @@
+import 'package:acorn_client/acorn_client.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../main.dart';
+import '../fetch/fetch_japanese.dart';
 
 class LanguageDropdownButton extends StatefulWidget {
   const LanguageDropdownButton({super.key});
@@ -12,6 +14,16 @@ class LanguageDropdownButton extends StatefulWidget {
 
 class LanguageDropdownButtonState extends State<LanguageDropdownButton> {
   String? currentLanguage = 'ja';// 初期値として'ja' (日本の国旗) を設定
+
+  List<Japanese> japaneseList = [];
+
+  //DB多言語化
+  Future<void> fetchJapaneseNamesIfNeeded() async {
+    final fetchJapaneseRepository = Provider.of<FetchJapaneseRepository>(context, listen: false);
+    if (fetchJapaneseRepository.isJapaneseLanguage(context)) {
+      await fetchJapaneseRepository.fetchAllJapaneseNames();
+    }
+  }
 
   @override
   void initState() {
@@ -41,6 +53,15 @@ class LanguageDropdownButtonState extends State<LanguageDropdownButton> {
     if (!mounted) return;
 
     MyApp.setLocale(context, newLocale); // MyApp内のsetLocaleメソッドを呼び出し
+
+    // 言語が日本語なら、特定の関数を呼び出す
+    if (languageCode == 'ja') {
+      await fetchJapaneseNamesIfNeeded();
+      setState(() {
+        // UIを更新するためにsetStateを呼び出す
+        debugPrint('Fetched Japanese names: ${Provider.of<FetchJapaneseRepository>(context, listen: false).japaneseList.length} items');
+      });
+    }
 
     // setStateを呼び出して、UIを更新
     setState(() {

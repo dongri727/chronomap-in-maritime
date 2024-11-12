@@ -61,6 +61,10 @@ class PhoneBody extends StatelessWidget {
             default:
               optionsO = model.preciseOption;
           }
+
+          // targetリストをアルファベット順に並べる   DBですでにソートされている
+          //final sortedTargets = model.items..sort((a, b) => a['name'].compareTo(b['name']));
+
           return Scaffold(
             appBar: AppBar(
               leading: const NavigationButton(
@@ -136,7 +140,7 @@ class PhoneBody extends StatelessWidget {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.all(20.0),
+                        padding: const EdgeInsets.fromLTRB(20,0,20,0),
                         child: TffFormat(
                           hintText: AppLocalizations.of(context)!.name,
                           onChanged: (text) {
@@ -147,6 +151,38 @@ class PhoneBody extends StatelessWidget {
                         ),
                       ),
                       const Padding(
+                        padding: EdgeInsets.fromLTRB(20,0,20,0),
+                        child: HintText(hintText: 'Select your tag(s)'),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(20,8,20,8),
+                        child: ShadowedContainer(
+                            child: ButtonFormat(
+                              label: 'Show tags',
+                              onPressed: model.toggleShowChips,
+                            )),
+                      ),
+                      if (model.showChips)
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+                          child: Wrap(
+                            spacing: 4.0,
+                            children: model.currentTargetsList.map((item) {
+                              return ChoiceChip(
+                                label: Text(
+                                    item['specialite'],
+                                  style: const TextStyle(fontSize: 10),
+                                ),
+                                padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
+                                selected: model.selectedTargetId == item['detailId'],
+                                onSelected: (bool isSelected) async {
+                                  model.setSelectedTargetId(isSelected ? item['detailId'] : null);
+                                },
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      const Padding(
                         padding: EdgeInsets.fromLTRB(100, 20, 100, 20),
                         child: Text(
                           'WHEN',
@@ -156,6 +192,7 @@ class PhoneBody extends StatelessWidget {
                           ),
                         ),
                       ),
+
                       Padding(
                         padding: const EdgeInsets.all(20.0),
                         child: ShadowedContainer(
@@ -316,7 +353,7 @@ class PhoneBody extends StatelessWidget {
                                     model.selectedOption == 'Nom de l\'océan' ||
                                     model.selectedOption == '海洋名'
                                     ? model.filtersLocation // 国名・海洋名を表示
-                                    : model.filtersSeas,    // 地名・海域名を表示
+                                    : model.filtersPlaces,    // 地名・海域名を表示
                                 choiceSIKey: item,
                                 onChoiceSISelected: (choiceSIKey) {
                                   // 選択された要素に基づき更新処理
@@ -331,7 +368,7 @@ class PhoneBody extends StatelessWidget {
                                     model.updateLocation(choiceSIKey);
                                   } else {
                                     // 地名・海域名の場合
-                                    model.chosenSea = choiceSIKey;
+                                    model.chosenPlace = choiceSIKey;
                                     model.updatePrecise(choiceSIKey);
                                   }
                                 });

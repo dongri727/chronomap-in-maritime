@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_echarts/flutter_echarts.dart';
 import '../gl_script.dart' show glScript;
@@ -18,10 +19,34 @@ class Pacific extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //final searchModel = Provider.of<SearchModel>(context);
+    if (pacificData == null || pacificData!.isEmpty) {
+      return const CircularProgressIndicator();
+    }
+
+    // pacificDataから3番目の値（z軸）を抽出して最小値・最大値を計算
+    List<double> zValues = pacificData!
+        .map((item) => item['value'][2] as double)
+        .toList();
+
+    double minZ = zValues.reduce(min).floorToDouble(); // 最小値を切り捨て
+    double maxZ = zValues.reduce(max).ceilToDouble(); // 最大値を切り上げ
+    double midZ = (minZ + maxZ) / 2; // 中間値を計算
+
+    // coastLine, ridgeLine, trenchLine の z 軸値を midZ に設定
+    List<dynamic> transformedPacificLine = pacificLine?.map((coordinate) {
+      return [coordinate[0], coordinate[1], midZ];
+    }).toList() ?? [];
+
+    List<dynamic> transformedPacificRidge = pacificRidge?.map((coordinate) {
+      return [coordinate[0], coordinate[1], midZ];
+    }).toList() ?? [];
+
+    List<dynamic> transformedPacificTrench = pacificTrench?.map((coordinate) {
+      return [coordinate[0], coordinate[1], midZ];
+    }).toList() ?? [];
+
     return Scaffold(
-      body: Container(
-        constraints: const BoxConstraints.expand( ),
+      body: DecoratedBox(
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/images/sea.png'),
@@ -76,8 +101,8 @@ class Pacific extends StatelessWidget {
         },
         zAxis3D: {
           type: 'value',
-          min: -1000,
-          max: 1000,
+          min: $minZ,
+          max: $maxZ,
           splitLine: {show: false},
           name: 'timeline',
           axisLine: {
@@ -104,20 +129,20 @@ class Pacific extends StatelessWidget {
             {
               type: 'scatter3D',
               symbolSize: 3,
-              data: ${json.encode(pacificLine)},
+              data: ${json.encode(transformedPacificLine)},
               itemStyle: { color: 'white' } 
             },  
             {
               type: 'scatter3D',
               symbolSize: 3,
-              data: ${json.encode(pacificRidge)},
+              data: ${json.encode(transformedPacificRidge)},
               itemStyle: { color: '#bc8f8f' } 
             },
             {
               type: 'scatter3D',
               symbolSize: 3,
-              data: ${json.encode(pacificTrench)},
-              itemStyle: { color: '#800000' } 
+              data: ${json.encode(transformedPacificTrench)},
+              itemStyle: { color: '#cd5c5c' } 
             },     
           ]
         };

@@ -16,13 +16,6 @@ class FetchJapaneseRepository with ChangeNotifier {
     notifyListeners();
   }
 
-/*  String getJapaneseName(int principalId) {
-    print("Searching for principalId: $principalId in ${japaneseList?.map((item) => item.principalId).toList()}");
-    final japanese = japaneseList?.firstWhere((item) => item.principalId == principalId, orElse: () => null);
-    return japanese?.japaneseName ?? 'N/A';
-  }*/
-
-
   String getJapaneseName(int principalId) {
     debugPrint('Looking for principalId: $principalId');
     var japanese = japaneseList.firstWhere(

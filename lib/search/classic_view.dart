@@ -6,7 +6,8 @@ import 'package:provider/provider.dart';
 class ClassicViewPage extends StatelessWidget {
   final List<Principal> listPrincipal;
   final List<int>? principalIds;
-  const ClassicViewPage({super.key, required this.listPrincipal, this.principalIds});
+  final List<Map<String, dynamic>>? maritimeData;
+  const ClassicViewPage({super.key, required this.listPrincipal, this.principalIds, this.maritimeData});
 
   @override
   Widget build(BuildContext context) {
@@ -47,10 +48,9 @@ class ClassicViewPage extends StatelessWidget {
                               height: 4,
                             ),
                             Text(
-                              listPrincipal[index].affair
-                             /* searchModel.fetchJapaneseRepository.isJapaneseLanguage(context)
-                                  ? searchModel.fetchJapaneseRepository.getJapaneseName(principalId!)
-                                  : searchModel.listPrincipal[index].affair,*/
+                                maritimeData != null && index < maritimeData!.length
+                                    ? maritimeData![index]['name'] ?? 'N/A'  // maritimeDataがnullでないことと、インデックスが範囲内であることを確認
+                                    : 'N/A'  // 安全なデフォルト値
                             ),
                             const SizedBox(
                               height: 2,

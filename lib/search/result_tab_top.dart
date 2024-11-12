@@ -43,6 +43,7 @@ class ResultTabTop extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
     return DefaultTabController(
       length: 4,
       child: Scaffold(
@@ -72,20 +73,21 @@ class ResultTabTop extends StatelessWidget {
                 icon: const Icon(Icons.question_mark, color: Colors.blue,))
           ],
           bottom: TabBar(
-            labelStyle: MaritimeTheme.textTheme.headlineMedium,
+            labelStyle: MaritimeTheme.textTheme.headlineMedium?.copyWith(
+              fontSize: screenWidth < 600 ? 20 : 30),
             indicatorColor: Colors.yellow,
             tabs: const [
-              Tab(text: "CLASSIC View"),
-              Tab(text: "Atlantic View"),
-              Tab(text: "Pacific View"),
-              Tab(text: "onGlobe View"),
+              Tab(text: "CLASSIC"),
+              Tab(text: "Atlantic"),
+              Tab(text: "Pacific"),
+              Tab(text: "Globe"),
             ],
           ),
         ),
         body: TabBarView(
           physics: const NeverScrollableScrollPhysics(),
           children: [
-            ClassicViewPage(listPrincipal: listPrincipal, principalIds: principalIds),
+            ClassicViewPage(listPrincipal: listPrincipal, principalIds: principalIds, maritimeData: maritimeData,),
             Atlantic(maritimeData: maritimeData, coastLine: coastLine, ridgeLine: ridgeLine, trenchLine: trenchLine),
             Pacific(pacificData: pacificData, pacificLine: pacificLine, pacificRidge: pacificRidge, pacificTrench: pacificTrench),
             OnGlobeView(maritimeData: maritimeData, globeLine: globeLine, globeRidge: globeRidge, globeTrench: globeTrench),

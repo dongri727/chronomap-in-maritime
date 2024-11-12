@@ -1,9 +1,0 @@
-[
-  {"value": [ -6.3515, 36.7781, 12], "name": "1,Sanlúcar de Barrameda", "itemStyle": {"color": "yellow"}},
-  {"value": [ -61.51, 10.69, 12], "name": "2,Trinidad", "itemStyle": {"color": "yellow"}},
-  {"value": [ -62.795, 9.3359, 12], "name": "3,Venezuela", "itemStyle": {"color": "yellow"}},
-  {"value": [ -6.2926, 36.5297, 12], "name": "4,Cádiz,", "itemStyle": {"color": "yellow"}},
-  {"value": [-61.0242, 14.6415, 12], "name": " Martinique", "itemStyle": {"color": "green"}},
-  {"value": [-83.2167, 15.0167, 12], "name": "Honduras", "itemStyle": {"color": "green"}},
-  {"value": [-82.7, 8.5, 12], "name": "Panama", "itemStyle": {"color": "green"}}
-]

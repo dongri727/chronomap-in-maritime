@@ -1,12 +1,8 @@
-import 'package:acorn_client/acorn_client.dart';
-import 'package:chronomap_in_maritime/fetch/fetch_japanese.dart';
 import 'package:chronomap_in_maritime/lists/targets_list.dart';
 import 'package:chronomap_in_maritime/search/result_tab_top.dart';
 import 'package:chronomap_in_maritime/search/search_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../fetch/fetch_japanese.dart';
-import '../serverpod_client.dart';
 import '../utils/tff_format.dart';
 import '../utils/theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -70,8 +66,8 @@ class SearchPageState extends State<SearchPage> {
 
                       // Chipが選択されたら全ての関数を走らせて一括で結果を取る
                       if (selectedTargetId != null) {
-                        await searchModel.fetchJapaneseNamesIfNeeded(context); //まず日本語を全件取る。
-                        await searchModel.fetchPrincipalByDetailId(detailIds: [selectedTargetId!]); //principalを取る。
+                        //todo アプリが日本語バージョンを選択しており取得済みのList[Japanese]がある場合、これを受け取る。
+                        await searchModel.fetchPrincipalByDetailId(detailIds: [selectedTargetId!]);//principalを取る。
 
                         if (!context.mounted) return;
                         await searchModel.fetchMapData(searchModel.principalIds, context); //principalに相当するMapを取り、対応する日本語を取り込む。

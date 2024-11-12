@@ -1,3 +1,4 @@
+import 'package:chronomap_in_maritime/fetch/fetch_target.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:acorn_client/acorn_client.dart';
@@ -8,9 +9,9 @@ import '../lists/countries_list.dart';
 import '../lists/oceans_list.dart';
 import '../lists/epoch_list.dart';
 import '../lists/principal_options_list.dart';
+import '../lists/targets_list.dart';
 import '../serverpod_client.dart';
 import '../utils/build_chips.dart';
-import '../utils/chips_format.dart';
 import 'principal_page.dart';
 import 'dart:math' as math;
 
@@ -18,16 +19,42 @@ class PrincipalModel extends ChangeNotifier {
 
   late final FetchPrincipalRepository _fetchPrincipalRepository;
   late final FetchPlaceRepository _fetchPlaceRepository;
-  late final FetchSeasRepository _fetchSeasRepository;
+  //late final FetchSeasRepository _fetchSeasRepository;
+  late final FetchTargetRepository _fetchTargetRepository;
 
   PrincipalModel() {
     _fetchPrincipalRepository = FetchPrincipalRepository();
     _fetchPlaceRepository = FetchPlaceRepository();
-    _fetchSeasRepository = FetchSeasRepository();
+    //_fetchSeasRepository = FetchSeasRepository();
+    _fetchTargetRepository = FetchTargetRepository();
   }
 
-  //地名・海域名の追加に用いる
-  //TextEditingController controller = TextEditingController();
+  List<Target> targets = [];
+
+  // 選択された id を格納する変数
+  int? selectedTargetId;
+
+  //ボタンが押されたか判定
+  bool showChips = false;
+
+  void toggleShowChips() {
+    showChips = !showChips;
+    notifyListeners();
+  }
+
+  List<dynamic> currentTargetsList = [];
+
+  Future<void> fetchTarget() async {
+    await _fetchTargetRepository.fetchAllTargets();
+    currentTargetsList = _fetchTargetRepository.targetsList;
+    notifyListeners();
+  }
+
+  void setSelectedTargetId(int? id) {
+    selectedTargetId = id;
+    notifyListeners();
+    print(selectedTargetId);
+  }
 
   double log10(num x) => log(x) / ln10;
 
@@ -122,11 +149,6 @@ class PrincipalModel extends ChangeNotifier {
   final List<int> filtersPlacesId = <int>[];
   String chosenPlace = '';
 
-  var newSea = '';
-  final List<String> filtersSeas= <String>[];
-  final List<int> filtersSeasId = <int>[];
-  String chosenSea = '';
-
   void updateLocation(String newLocation) {
     location = newLocation;
     notifyListeners();
@@ -142,12 +164,11 @@ class PrincipalModel extends ChangeNotifier {
     notifyListeners();
   }
 
-
-  Future<void> fetchSeas(location) async {
+/*  Future<void> fetchSeas(location) async {
     await _fetchSeasRepository.fetchSeas(location);
     currentDisplayList = _fetchSeasRepository.listSeas;
     notifyListeners();
-  }
+  }*/
 
   ///RadioButtonの選択に応じてlocationの候補を取得する
   Future<void> listRadioButtonBasis(selectedOption) async {
@@ -173,9 +194,13 @@ class PrincipalModel extends ChangeNotifier {
     notifyListeners(); // Update the UI
   }
 
-  ///RadioButtonの選択に応じてpreciseの候補を取得する
+  ///RadioButtonの選択にかかわらず統合preciseの候補を取得する
   Future<void> fetchRadioButtonBasisForPrecise(selectedOption) async {
-    switch (selectedOption) {
+    await _fetchPlaceRepository.fetchPlaces(location);
+    currentDisplayList = _fetchPlaceRepository.listPlaces
+        .map((placeItem) => placeItem.place)
+        .toList();
+/*    switch (selectedOption) {
       case 'Current Place-name':
       case 'Nom actuel du lieu':
       case '現在の地名':
@@ -192,7 +217,7 @@ class PrincipalModel extends ChangeNotifier {
         .map((seaItem) => seaItem.sea)
         .toList();
         break;
-    }
+    }*/
     notifyListeners();
   }
 
@@ -231,7 +256,12 @@ class PrincipalModel extends ChangeNotifier {
   }
 
   Future<void> addAndFetchRadioButtonBasis(selectedOption) async {
-    switch (selectedOption) {
+    //placeとseasを統合する
+    await _fetchPlaceRepository.addPlacesAndFetch(newPlace, location);
+    currentDisplayList = _fetchPlaceRepository.listPlaces
+        .map((placeItem) => placeItem.place)
+        .toList();
+/*    switch (selectedOption) {
     //keyCountryが取得されているので、国名付きで保存される。
       case 'Current Place-name':
       case 'Nom actuel du lieu':
@@ -244,18 +274,17 @@ class PrincipalModel extends ChangeNotifier {
       case 'Sea-name':
       case 'Nom de la mer':
       case '海域名':
-        //todo　deployできたらseaテーブルを分離する
-/*        await _fetchSeasRepository.addSeasAndFetch(newSea, location);
+*//*        await _fetchSeasRepository.addSeasAndFetch(newSea, location);
         currentDisplayList = _fetchSeasRepository.listSeas
           .map((seaItem) => seaItem.sea)
-          .toList();*/
+          .toList();*//*
         await _fetchPlaceRepository.addPlacesAndFetch(newPlace, location);
         currentDisplayList = _fetchPlaceRepository.listPlaces
             .map((placeItem) => placeItem.place)
             .toList();
 
         break;
-    }
+    }*/
     notifyListeners();
   }
 
@@ -266,7 +295,6 @@ class PrincipalModel extends ChangeNotifier {
   }
 
   //記入された地名・海域名を取得
-  //todo 海域を分離する
   setNewPlace(text) {
     newPlace = text;
     notifyListeners();
@@ -434,9 +462,20 @@ class PrincipalModel extends ChangeNotifier {
         var principalId = await client.principal.addPrincipal(principal);
 
         //principal-detail
-        var pDetailCategory = PrincipalDetail(
+        if (selectedTargetId != null) {
+          try {
+            var pDetailTerms = PrincipalDetail(principalId: principalId, detailId: selectedTargetId!);
+            await client.principalDetail.addPDetail(pDetailTerms);
+          } catch (e) {
+            print('Error adding PrincipalDetail: $e');
+          }
+        } else {
+          print('selectedTargetId is null');
+        }
+
+/*        var pDetailCategory = PrincipalDetail(
             principalId: principalId, detailId: maritimeCode);
-        await client.principalDetail.addPDetail(pDetailCategory);
+        await client.principalDetail.addPDetail(pDetailCategory);*/
 
         //with Map
         var withMap = WithMap(

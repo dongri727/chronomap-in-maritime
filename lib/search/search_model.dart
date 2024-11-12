@@ -47,25 +47,19 @@ class SearchModel with ChangeNotifier {
     }
   }
 
-  //DB多言語化
-  Future<void> fetchJapaneseNamesIfNeeded(BuildContext context) async {
-    final fetchJapaneseRepository = Provider.of<FetchJapaneseRepository>(context, listen: false);
-    if (fetchJapaneseRepository.isJapaneseLanguage(context)) {
-      await fetchJapaneseRepository.fetchAllJapaneseNames();
-      notifyListeners();
-    }
-  }
-
   Future<void> fetchMapData(List<int>? principalIds, BuildContext context) async {
-    //print("Principal IDs before fetchWithMap: $principalIds");
 
-    await fetchJapaneseNamesIfNeeded(context);
+    // JapaneseList を取得するリポジトリを Provider 経由でアクセス
+    final fetchJapaneseRepository = Provider.of<FetchJapaneseRepository>(context, listen: false);
+
+    // 必要ならば日本語リストを取得
+    if (fetchJapaneseRepository.isJapaneseLanguage(context) && fetchJapaneseRepository.japaneseList.isEmpty) {
+      await fetchJapaneseRepository.fetchAllJapaneseNames();
+    }
+
     await fetchWithMapRepository.fetchWithMap(keyNumbers: principalIds);
 
-    //print("Fetched listWithMap: ${fetchWithMapRepository.listWithMap}");
-
     maritimeData = fetchWithMapRepository.listWithMap.map((withMap) {
-      //print("WithMap PrincipalId: ${withMap.principalId}");
 
       String japaneseName = fetchJapaneseRepository.getJapaneseName(withMap.principalId);
       print("Japanese name for PrincipalId ${withMap.principalId}: $japaneseName");
@@ -79,7 +73,6 @@ class SearchModel with ChangeNotifier {
     }).toList();
 
     pacificData = fetchWithMapRepository.listWithMap.map((withMap) {
-      //print("WithMap PrincipalId: ${withMap.principalId}");
 
       String japaneseName = fetchJapaneseRepository.getJapaneseName(withMap.principalId);
       print("Japanese name for PrincipalId ${withMap.principalId}: $japaneseName");
@@ -146,7 +139,6 @@ class SearchModel with ChangeNotifier {
     if (shifted > 180.0) shifted -= 360.0;
     return shifted;
   }
-
 }
 
 

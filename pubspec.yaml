@@ -33,11 +33,12 @@ dependencies:
   flutter_echarts: ^2.5.0
   flutter_localizations:
     sdk: flutter
-  serverpod_flutter: ^2.1.1
+  serverpod_flutter: ^2.1.5
   acorn_client:
     git:
       url: https://github.com/dongri727/acorn
       path: acorn_client
+
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -47,6 +48,7 @@ dependencies:
   provider: ^6.0.5
   intl: ^0.19.0
   url_launcher: ^6.2.5
+  webview_flutter: ^4.10.0
 
   shared_preferences: ^2.3.2
   flutter_launcher_icons: ^0.13.1
@@ -81,9 +83,6 @@ flutter:
     - assets/json/coastline.json
     - assets/json/ridge.json
     - assets/json/trench.json
-    - assets/json/columbus.json
-    - assets/json/columbus2nd.json
-    - assets/json/columbus3rd.json
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

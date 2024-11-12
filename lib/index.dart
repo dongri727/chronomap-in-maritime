@@ -1,7 +1,6 @@
 import 'package:chronomap_in_maritime/search/search_page.dart';
 import 'package:chronomap_in_maritime/globe_test.dart';
 import 'package:chronomap_in_maritime/scalable/menu/scalable.dart';
-import 'package:chronomap_in_maritime/scatter/columbus/columbus.dart';
 import 'package:chronomap_in_maritime/test1_page.dart';
 import 'package:chronomap_in_maritime/utils/theme.dart';
 import 'package:flutter/material.dart';
@@ -82,53 +81,6 @@ class _IndexPageState extends State<IndexPage> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => const SearchPage()));
-                  },
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: OutlinedButton(
-                  child: Text('Columbus',
-                    style: MaritimeTheme.textTheme.headlineMedium,
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const ColumbusPage()));
-                  },
-                ),
-              ),
-
-
-              Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: OutlinedButton(
-                  child: Text('Test1Page',
-                    //AppLocalizations.of(context)!.indexE,
-                    style: MaritimeTheme.textTheme.headlineMedium,
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const Test1Page()));
-                  },
-                ),
-              ),
-
-              Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: OutlinedButton(
-                  child: Text('globe-test',
-                    //AppLocalizations.of(context)!.indexA,
-                    style: MaritimeTheme.textTheme.headlineMedium,
-                  ),
-                  onPressed: (){
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const MyChart()));
                   },
                 ),
               ),
