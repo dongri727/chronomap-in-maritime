@@ -23,8 +23,6 @@ class SearchPageState extends State<SearchPage> {
   @override
   void initState() {
     super.initState();
-    // アルファベット順に並び替える
-    items.sort((a, b) => a['name'].compareTo(b['name']));
   }
 
   @override

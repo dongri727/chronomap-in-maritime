@@ -74,7 +74,7 @@ class ResultTabTop extends StatelessWidget {
           ],
           bottom: TabBar(
             labelStyle: MaritimeTheme.textTheme.headlineMedium?.copyWith(
-              fontSize: screenWidth < 600 ? 20 : 30),
+              fontSize: screenWidth < 600 ? 16 : 30),
             indicatorColor: Colors.yellow,
             tabs: const [
               Tab(text: "CLASSIC"),

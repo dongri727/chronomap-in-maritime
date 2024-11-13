@@ -61,10 +61,6 @@ class TabletBody extends StatelessWidget {
               optionsO = model.preciseOption;
           }
 
-          // targetリストをアルファベット順に並べる
-          //final sortedTargets = model.items..sort((a, b) => a['name'].compareTo(b['name']));
-
-
           return Scaffold(
             appBar: AppBar(
               leading: const NavigationButton(
@@ -188,9 +184,9 @@ class TabletBody extends StatelessWidget {
                                       children: model.currentTargetsList.map((item) {
                                         return ChoiceChip(
                                           label: Text(item['specialite']),
-                                          selected: model.selectedTargetId == item['detailId'],
+                                          selected: model.selectedDetailId == item['detailId'],
                                           onSelected: (bool isSelected) async {
-                                            model.setSelectedTargetId(isSelected ? item['detailId'] : null);
+                                            model.setSelectedDetailId(isSelected ? item['detailId'] : null);
                                           },
                                         );
                                       }).toList(),
@@ -237,7 +233,7 @@ class TabletBody extends StatelessWidget {
                                       flex: 1,
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
-                                        child: TffFormat(
+                                        child: NumFormat(
                                           hintText: 'year',
                                           onChanged: (value) {
                                             model.setNewYearD(value);
@@ -250,7 +246,7 @@ class TabletBody extends StatelessWidget {
                                       flex: 1,
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
-                                        child: TffFormat(
+                                        child: NumFormat(
                                           hintText: 'Month 1-12 or 0',
                                           onChanged: (value) {
                                             model.setNewMonth(value);
@@ -264,7 +260,7 @@ class TabletBody extends StatelessWidget {
                                     child: Padding(
                                         padding: const EdgeInsets.fromLTRB(
                                             8, 8, 20, 8),
-                                        child: TffFormat(
+                                        child: NumFormat(
                                           hintText: 'Date 1-31 or 0',
                                           onChanged: (value) {
                                             model.setNewDay(value);
@@ -468,7 +464,7 @@ class TabletBody extends StatelessWidget {
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.all(8.0),
-                                            child: TffFormat(
+                                            child: NumFormat(
                                               hintText: 'latitude',
                                               onChanged: (value) {
                                                 model.nsSwitch(value);
@@ -497,7 +493,7 @@ class TabletBody extends StatelessWidget {
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.all(8.0),
-                                            child: TffFormat(
+                                            child: NumFormat(
                                               hintText: 'longitude',
                                               onChanged: (value) {
                                                 model.ewSwitch(value);

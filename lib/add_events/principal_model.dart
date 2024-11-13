@@ -19,26 +19,25 @@ class PrincipalModel extends ChangeNotifier {
 
   late final FetchPrincipalRepository _fetchPrincipalRepository;
   late final FetchPlaceRepository _fetchPlaceRepository;
-  //late final FetchSeasRepository _fetchSeasRepository;
   late final FetchTargetRepository _fetchTargetRepository;
 
   PrincipalModel() {
     _fetchPrincipalRepository = FetchPrincipalRepository();
     _fetchPlaceRepository = FetchPlaceRepository();
-    //_fetchSeasRepository = FetchSeasRepository();
     _fetchTargetRepository = FetchTargetRepository();
   }
 
-  List<Target> targets = [];
+  List<Target> targetsList = [];
 
   // 選択された id を格納する変数
-  int? selectedTargetId;
+  int? selectedDetailId;
 
   //ボタンが押されたか判定
   bool showChips = false;
 
   void toggleShowChips() {
     showChips = !showChips;
+    fetchTarget();
     notifyListeners();
   }
 
@@ -48,12 +47,13 @@ class PrincipalModel extends ChangeNotifier {
     await _fetchTargetRepository.fetchAllTargets();
     currentTargetsList = _fetchTargetRepository.targetsList;
     notifyListeners();
+    print(targetsList);
   }
 
-  void setSelectedTargetId(int? id) {
-    selectedTargetId = id;
+  void setSelectedDetailId(int? id) {
+    selectedDetailId = id;
     notifyListeners();
-    print(selectedTargetId);
+    print(selectedDetailId);
   }
 
   double log10(num x) => log(x) / ln10;
@@ -100,8 +100,7 @@ class PrincipalModel extends ChangeNotifier {
     'E',
     'W',
   ];
-
-  ewSwitch(value) async {
+  void ewSwitch(value) async{
     switch (selectedOption) {
       case 'E':
         newLongitude = double.tryParse(value)!;
@@ -164,12 +163,6 @@ class PrincipalModel extends ChangeNotifier {
     notifyListeners();
   }
 
-/*  Future<void> fetchSeas(location) async {
-    await _fetchSeasRepository.fetchSeas(location);
-    currentDisplayList = _fetchSeasRepository.listSeas;
-    notifyListeners();
-  }*/
-
   ///RadioButtonの選択に応じてlocationの候補を取得する
   Future<void> listRadioButtonBasis(selectedOption) async {
     switch (selectedOption) {
@@ -200,24 +193,6 @@ class PrincipalModel extends ChangeNotifier {
     currentDisplayList = _fetchPlaceRepository.listPlaces
         .map((placeItem) => placeItem.place)
         .toList();
-/*    switch (selectedOption) {
-      case 'Current Place-name':
-      case 'Nom actuel du lieu':
-      case '現在の地名':
-        await _fetchPlaceRepository.fetchPlaces(location);
-        currentDisplayList = _fetchPlaceRepository.listPlaces
-        .map((placeItem) => placeItem.place)
-        .toList();
-        break;
-      case 'Sea-name':
-      case 'Nom de la mer':
-      case '海域名':
-        await _fetchSeasRepository.fetchSeas(location);
-        currentDisplayList = _fetchSeasRepository.listSeas
-        .map((seaItem) => seaItem.sea)
-        .toList();
-        break;
-    }*/
     notifyListeners();
   }
 
@@ -261,30 +236,6 @@ class PrincipalModel extends ChangeNotifier {
     currentDisplayList = _fetchPlaceRepository.listPlaces
         .map((placeItem) => placeItem.place)
         .toList();
-/*    switch (selectedOption) {
-    //keyCountryが取得されているので、国名付きで保存される。
-      case 'Current Place-name':
-      case 'Nom actuel du lieu':
-      case '現在の地名':
-        await _fetchPlaceRepository.addPlacesAndFetch(newPlace, location);
-        currentDisplayList = _fetchPlaceRepository.listPlaces
-            .map((placeItem) => placeItem.place)
-            .toList();
-        break;
-      case 'Sea-name':
-      case 'Nom de la mer':
-      case '海域名':
-*//*        await _fetchSeasRepository.addSeasAndFetch(newSea, location);
-        currentDisplayList = _fetchSeasRepository.listSeas
-          .map((seaItem) => seaItem.sea)
-          .toList();*//*
-        await _fetchPlaceRepository.addPlacesAndFetch(newPlace, location);
-        currentDisplayList = _fetchPlaceRepository.listPlaces
-            .map((placeItem) => placeItem.place)
-            .toList();
-
-        break;
-    }*/
     notifyListeners();
   }
 
@@ -462,15 +413,15 @@ class PrincipalModel extends ChangeNotifier {
         var principalId = await client.principal.addPrincipal(principal);
 
         //principal-detail
-        if (selectedTargetId != null) {
+        if (selectedDetailId != null) {
           try {
-            var pDetailTerms = PrincipalDetail(principalId: principalId, detailId: selectedTargetId!);
+            var pDetailTerms = PrincipalDetail(principalId: principalId, detailId: selectedDetailId!);
             await client.principalDetail.addPDetail(pDetailTerms);
           } catch (e) {
             print('Error adding PrincipalDetail: $e');
           }
         } else {
-          print('selectedTargetId is null');
+          print('selectedDetailId is null');
         }
 
 /*        var pDetailCategory = PrincipalDetail(

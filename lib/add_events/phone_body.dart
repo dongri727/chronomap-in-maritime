@@ -170,13 +170,13 @@ class PhoneBody extends StatelessWidget {
                             children: model.currentTargetsList.map((item) {
                               return ChoiceChip(
                                 label: Text(
-                                    item['specialite'],
+                                    item['target.specialite'],
                                   style: const TextStyle(fontSize: 10),
                                 ),
                                 padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
-                                selected: model.selectedTargetId == item['detailId'],
+                                selected: model.selectedDetailId == item['detailId'],
                                 onSelected: (bool isSelected) async {
-                                  model.setSelectedTargetId(isSelected ? item['detailId'] : null);
+                                  model.setSelectedDetailId(isSelected ? item['detailId'] : null);
                                 },
                               );
                             }).toList(),
@@ -208,7 +208,7 @@ class PhoneBody extends StatelessWidget {
                       ),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(30, 8, 30, 8),
-                        child: TffFormat(
+                        child: NumFormat(
                           hintText: 'year',
                           onChanged: (value) {
                             model.setNewYearD(value);
@@ -219,7 +219,7 @@ class PhoneBody extends StatelessWidget {
                       ),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(30, 8, 30, 8),
-                        child: TffFormat(
+                        child: NumFormat(
                           hintText: 'Month 1-12 or 0',
                           onChanged: (value) {
                             model.setNewMonth(value);
@@ -231,7 +231,7 @@ class PhoneBody extends StatelessWidget {
                       Padding(
                           padding: const EdgeInsets.fromLTRB(
                               30, 8, 30, 8),
-                          child: TffFormat(
+                          child: NumFormat(
                             hintText: 'Date 1-31 or 0',
                             onChanged: (value) {
                               model.setNewDay(value);
@@ -400,7 +400,7 @@ class PhoneBody extends StatelessWidget {
 
                           Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: TffFormat(
+                            child: NumFormat(
                               hintText: 'latitude',
                               onChanged: (value) {
                                 model.nsSwitch(value);
@@ -424,7 +424,7 @@ class PhoneBody extends StatelessWidget {
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: TffFormat(
+                        child: NumFormat(
                           hintText: 'longitude',
                           onChanged: (value) {
                             model.ewSwitch(value);
