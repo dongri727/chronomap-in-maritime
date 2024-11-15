@@ -387,12 +387,15 @@ class TabletBody extends StatelessWidget {
                                         padding: const EdgeInsets.fromLTRB(
                                             8, 8, 20, 8),
                                         child: ShadowedContainer(
-                                          child: ButtonFormat(
-                                            label: AppLocalizations.of(context)!
-                                                .addWord,
-                                            onPressed: () async {
-                                              model.addAndFetchRadioButtonBasis(model.selectedOption);
-                                            },
+                                          child: Visibility(
+                                            visible: model.newPlace.trim().isNotEmpty,
+                                            child: ButtonFormat(
+                                              label: AppLocalizations.of(context)!
+                                                  .addWord,
+                                              onPressed: () async {
+                                                await model.addAndFetchRadioButtonBasis(model.selectedOption);
+                                              },
+                                            ),
                                           ),
                                         ),
                                       ),

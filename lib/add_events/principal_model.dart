@@ -231,12 +231,16 @@ class PrincipalModel extends ChangeNotifier {
   }
 
   Future<void> addAndFetchRadioButtonBasis(selectedOption) async {
-    //placeとseasを統合する
-    await _fetchPlaceRepository.addPlacesAndFetch(newPlace, location);
-    currentDisplayList = _fetchPlaceRepository.listPlaces
-        .map((placeItem) => placeItem.place)
-        .toList();
-    notifyListeners();
+    //placeとseasを統合した
+    if (newPlace.isNotEmpty) {
+      await _fetchPlaceRepository.addPlacesAndFetch(newPlace, location);
+      currentDisplayList = _fetchPlaceRepository.listPlaces
+          .map((placeItem) => placeItem.place)
+          .toList();
+      notifyListeners();
+    } else {
+      return;
+    }
   }
 
   //WHATを記入

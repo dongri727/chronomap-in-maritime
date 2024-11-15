@@ -10,7 +10,6 @@ class ButtonFormat extends StatelessWidget {
   const ButtonFormat ({
     required this.label,
     required this.onPressed,
-
     super.key,
   });
 
@@ -165,3 +164,4 @@ class TextButtonFormat extends StatelessWidget {
     );
   }
 }
+
