@@ -157,7 +157,11 @@ class FilterFormatImediatState extends State<FilterFormatImediat> {
   @override
   Widget build(BuildContext context) {
     return FilterChip(
-      label: Text(widget.filterImKey),
+      label: Text(
+          widget.filterImKey,
+        style: const TextStyle(fontSize: 10),
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
       selected: widget.filteredImKeys.contains(widget.filterImKey),
       onSelected: (bool value) {
         setState(() {

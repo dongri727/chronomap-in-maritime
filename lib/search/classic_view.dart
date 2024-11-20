@@ -56,7 +56,7 @@ class ClassicViewPage extends StatelessWidget {
                               height: 2,
                             ),
                             Text(
-                              '${searchModel.listPrincipal[index].location}, ${searchModel.listPrincipal[index].precise}',
+                              '${listPrincipal[index].location}, ${listPrincipal[index].precise}',
                               style: const TextStyle(fontSize: 12),
                             ),
                           ],

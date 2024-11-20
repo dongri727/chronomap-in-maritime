@@ -3,13 +3,11 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:acorn_client/acorn_client.dart';
 import '../fetch/fetch_place.dart';
-import '../fetch/fetch_ptincipal.dart';
-import '../fetch/fetch_seas.dart';
+import '../fetch/fetch_principal.dart';
 import '../lists/countries_list.dart';
 import '../lists/oceans_list.dart';
 import '../lists/epoch_list.dart';
 import '../lists/principal_options_list.dart';
-import '../lists/targets_list.dart';
 import '../serverpod_client.dart';
 import '../utils/build_chips.dart';
 import 'principal_page.dart';
@@ -27,10 +25,12 @@ class PrincipalModel extends ChangeNotifier {
     _fetchTargetRepository = FetchTargetRepository();
   }
 
-  List<Target> targetsList = [];
-
   // 選択された id を格納する変数
-  int? selectedDetailId;
+  late List<int> selectedDetailIds = [];
+
+  String selectedTarget ='';
+
+  List<dynamic>? currentTargetsList;
 
   //ボタンが押されたか判定
   bool showChips = false;
@@ -41,20 +41,70 @@ class PrincipalModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<dynamic> currentTargetsList = [];
-
   Future<void> fetchTarget() async {
     await _fetchTargetRepository.fetchAllTargets();
     currentTargetsList = _fetchTargetRepository.targetsList;
     notifyListeners();
-    print(targetsList);
   }
 
-  void setSelectedDetailId(int? id) {
-    selectedDetailId = id;
-    notifyListeners();
-    print(selectedDetailId);
+  var newTarget = '';
+  final List<String> filtersTarget = <String>[];
+  final List<int> filtersDetailId = <int>[];
+  int newDetailId = 0;
+
+  Future<void> addAndFetchTarget(newTarget) async {
+    if(newTarget.isNotEmpty){
+      //detailに保存してidを取得
+      newDetailId = await _fetchTargetRepository.addTargetToDetail('target', newTarget);
+      //idを用いてtargetに保存
+      await _fetchTargetRepository.addTargetAndFetch(newTarget, newDetailId);
+      currentTargetsList = _fetchTargetRepository.targetsList;
+      notifyListeners();
+      print(currentTargetsList);
+    }
   }
+
+
+  //ChipでTargetを表示
+  Widget buildTargetWidget(dynamic item) {
+    return buildFilterFormatImediat(
+      filterValue: item.detailId,
+      filterKey: (item as Target).specialite,
+      filteredValues: filtersDetailId,
+      filteredKeys: filtersTarget,
+      onSelected: (key, value) {
+        print('Selected key: $key, value: $value'); // デバッグ用
+        if (filtersDetailId.contains(value)) {
+          filtersDetailId.add(value); // 選択解除
+          selectedDetailIds.add(value);
+        } else {
+          filtersDetailId.remove(value); // 選択
+          selectedDetailIds.remove(value);
+        }
+        updateSelectedTarget(key);
+        notifyListeners();
+        print(selectedDetailIds); // デバッグ用
+      }
+    );
+  }
+  void updateSelectedTarget(String newSelectedTarget) {
+    selectedTarget = newSelectedTarget;
+    notifyListeners();
+  }
+
+  void setSelectedDetailId(List<int> id) {
+    selectedDetailIds = id;
+    notifyListeners();
+    print(selectedDetailIds);
+  }
+
+  //Targetを記入
+  setNewTarget(text) {
+    newTarget = text;
+    notifyListeners();
+  }
+
+
 
   double log10(num x) => log(x) / ln10;
 
@@ -73,8 +123,6 @@ class PrincipalModel extends ChangeNotifier {
   double cx = 0.0;
   double cy = 0.0;
   double cz = 0.0;
-
-  int maritimeCode = 695;
 
   List<String> periods = epoch;
   List<String> periodsFr = epochFr;
@@ -417,20 +465,14 @@ class PrincipalModel extends ChangeNotifier {
         var principalId = await client.principal.addPrincipal(principal);
 
         //principal-detail
-        if (selectedDetailId != null) {
-          try {
-            var pDetailTerms = PrincipalDetail(principalId: principalId, detailId: selectedDetailId!);
-            await client.principalDetail.addPDetail(pDetailTerms);
-          } catch (e) {
-            print('Error adding PrincipalDetail: $e');
+        try {
+          for (var detailId in selectedDetailIds) {
+          var pDetailTarget = PrincipalDetail(principalId: principalId, detailId: detailId);
+          await client.principalDetail.addPDetail(pDetailTarget);
           }
-        } else {
-          print('selectedDetailId is null');
+        } catch (e) {
+          print('Error adding PrincipalDetail: $e');
         }
-
-/*        var pDetailCategory = PrincipalDetail(
-            principalId: principalId, detailId: maritimeCode);
-        await client.principalDetail.addPDetail(pDetailCategory);*/
 
         //with Map
         var withMap = WithMap(

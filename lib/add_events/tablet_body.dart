@@ -19,6 +19,7 @@ class TabletBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextEditingController controller = TextEditingController();
+    final TextEditingController targetController = TextEditingController();
     return ChangeNotifierProvider<PrincipalModel>(
       create: (_) => PrincipalModel(),
       child: Consumer<PrincipalModel>(
@@ -173,22 +174,52 @@ class TabletBody extends StatelessWidget {
                                               )),
                                         ),
                                       ),
-
                                     ],
                                   ),
-                                  if (model.showChips)
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        flex: 3,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: FormatGrey(
+                                            controller: targetController,
+                                            hintText: '追加したいタグを記入',
+                                            onChanged: (text) {
+                                              model.setNewTarget(text);
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        flex: 2,
+                                        child: Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              8, 8, 20, 8),
+                                          child: ShadowedContainer(
+                                            child: Visibility(
+                                              visible: model.newTarget.trim().isNotEmpty,
+                                              child: ButtonFormat(
+                                                label: AppLocalizations.of(context)!
+                                                    .addWord,
+                                                onPressed: () async {
+                                                  await model.addAndFetchTarget(model.newTarget);
+                                                  targetController.clear();
+                                                },
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  if (model.showChips && model.currentTargetsList != null)
                                   Padding(
                                       padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
                                     child: Wrap(
                                       spacing: 8.0,
-                                      children: model.currentTargetsList.map((item) {
-                                        return ChoiceChip(
-                                          label: Text(item['specialite']),
-                                          selected: model.selectedDetailId == item['detailId'],
-                                          onSelected: (bool isSelected) async {
-                                            model.setSelectedDetailId(isSelected ? item['detailId'] : null);
-                                          },
-                                        );
+                                      children: model.currentTargetsList!.map<Widget>((item) {
+                                        return model.buildTargetWidget(item);
                                       }).toList(),
                                     ),
                                   ),
@@ -196,6 +227,7 @@ class TabletBody extends StatelessWidget {
                               ))
                         ],
                       ),
+
                       Row(
                         children: [
                           const Expanded(

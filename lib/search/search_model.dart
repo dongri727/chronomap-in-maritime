@@ -1,23 +1,28 @@
 import 'dart:convert';
-import 'package:chronomap_in_maritime/fetch/fetch_ptincipal.dart';
+import 'package:chronomap_in_maritime/fetch/fetch_principal.dart';
+import 'package:chronomap_in_maritime/search/result_tab_top.dart';
+import 'package:chronomap_in_maritime/utils/build_chips.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import '../fetch/fetch_target.dart';
 import '../fetch/fetch_with_map.dart';
 import '../fetch/fetch_japanese.dart';
 import 'package:acorn_client/acorn_client.dart';
 import '../serverpod_client.dart';
 
-class SearchModel with ChangeNotifier {
+class SearchModel extends ChangeNotifier {
 
   late final FetchPrincipalRepository fetchPrincipalRepository;
   late final FetchWithMapRepository fetchWithMapRepository;
   late final FetchJapaneseRepository fetchJapaneseRepository;
+  late final FetchTargetRepository fetchTargetRepository;
 
   SearchModel() {
     fetchPrincipalRepository = FetchPrincipalRepository();
     fetchWithMapRepository = FetchWithMapRepository();
     fetchJapaneseRepository = FetchJapaneseRepository();
+    fetchTargetRepository = FetchTargetRepository();
   }
 
   List<Principal> listPrincipal = [];
@@ -35,7 +40,48 @@ class SearchModel with ChangeNotifier {
   List<dynamic>? pacificTrench;
   List<dynamic>? globeTrench;
   List<Japanese>? japaneseList;
+  List<Target>? targetList;
 
+  // 選択された id を格納する変数
+  late List<int> selectedDetailIds = [];
+
+  List<dynamic> currentTargetsList = [];
+
+  Future<void> fetchTarget() async {
+    await fetchTargetRepository.fetchAllTargets();
+    currentTargetsList = fetchTargetRepository.targetsList;
+    print(currentTargetsList);
+    notifyListeners();
+  }
+
+  List<String> filtersTarget = <String>[];
+  List<int> filtersDetailId = <int>[];
+  String selectedTarget = '';
+  int selectedDetailId = 0;
+
+  Widget buildItemWidget(dynamic item) {
+    return buildFilterFormatImediat(
+        filteredKeys: filtersTarget,
+        filteredValues: filtersDetailId,
+        filterKey: item.specialite,
+        filterValue: item.detailId,
+        onSelected: (filterKey, filterId) {
+          selectedTarget = filterKey;
+          selectedDetailId = filterId;
+          updateSelectedTarget(filterKey);
+        });
+  }
+
+  void updateSelectedTarget(String newSelectedTarget) {
+    selectedTarget = newSelectedTarget;
+    notifyListeners();
+  }
+
+  void setSelectedDetailId(List<int> id) {
+    selectedDetailIds = id;
+    notifyListeners();
+    print(selectedDetailIds);
+  }
 
   Future<void> fetchPrincipalByDetailId({List<int>? detailIds}) async {
     try {
@@ -139,6 +185,41 @@ class SearchModel with ChangeNotifier {
     if (shifted > 180.0) shifted -= 360.0;
     return shifted;
   }
+
+  Future<void> showResult(BuildContext context, int selectedDetailId) async {
+    //todo アプリが日本語バージョンを選択しており取得済みのList[Japanese]がある場合、これを受け取る。
+    await fetchPrincipalByDetailId(detailIds: [selectedDetailId]);//principalを取る。
+    print(listPrincipal);
+    if (!context.mounted) return;
+    await fetchMapData(principalIds, context); //principalに相当するMapを取り、対応する日本語を取り込む。
+    //print(principalIds);
+    await fetchCoastLine(); //海岸線を取る。
+    await fetchRidgeLine(); //ridgeを取る
+    await fetchTrenchLine(); //trenchを取る
+
+    if (!context.mounted) return;
+
+    Navigator.push (
+        context,
+        MaterialPageRoute(
+          builder: (context) =>
+              ResultTabTop(
+                  listPrincipal: listPrincipal,
+                  principalIds: principalIds,
+                  maritimeData: maritimeData!,
+                  pacificData: pacificData!,
+                  coastLine: coastLine!,
+                  pacificLine: pacificLine!,
+                  globeLine: globeLine!,
+                  ridgeLine: ridgeLine!,
+                  pacificRidge: pacificRidge!,
+                  globeRidge: globeRidge!,
+                  trenchLine: trenchLine!,
+                  pacificTrench: pacificTrench!,
+                  globeTrench: globeTrench!)
+        ));
+
+    }
 }
 
 
