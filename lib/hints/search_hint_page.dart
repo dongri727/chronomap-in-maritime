@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../utils/discribe_card.dart';
 
-class AddHintPage extends StatelessWidget {
-  const AddHintPage({super.key});
+class SearchHintPage extends StatelessWidget {
+  const SearchHintPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,32 +26,32 @@ class AddHintPage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(50, 50, 50, 0),
                     child: CustomTextContainer(
-                        textContent: AppLocalizations.of(context)!.addHintA),
+                        textContent: AppLocalizations.of(context)!.searchHintA),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
                     child: CustomTextContainer(
-                        textContent: AppLocalizations.of(context)!.addHintB),
+                        textContent: AppLocalizations.of(context)!.searchHintB),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
                     child: CustomTextContainer(
-                        textContent: AppLocalizations.of(context)!.addHintC),
+                        textContent: AppLocalizations.of(context)!.searchHintC),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
                     child: CustomTextContainer(
-                        textContent: AppLocalizations.of(context)!.addHintD),
+                        textContent: AppLocalizations.of(context)!.searchHintD),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
                     child: CustomTextContainer(
-                        textContent: AppLocalizations.of(context)!.addHintE),
+                        textContent: AppLocalizations.of(context)!.searchHintE),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
                     child: CustomTextContainer(
-                        textContent: AppLocalizations.of(context)!.addHintF),
+                        textContent: AppLocalizations.of(context)!.searchHintF),
                   ),
 
                 ],

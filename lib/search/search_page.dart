@@ -1,6 +1,7 @@
 import 'package:chronomap_in_maritime/search/search_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../hints/search_hint_page.dart';
 import '../utils/shadowed_container.dart';
 import '../utils/tff_format.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -18,6 +19,19 @@ class SearchPage extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             title: Text(AppLocalizations.of(context)!.searchA),
+            actions: [
+              IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SearchHintPage()));
+                  },
+                  icon: const Icon(
+                    Icons.question_mark,
+                    color: Colors.blue,
+                  ))
+            ],
           ),
 
           body: Container(

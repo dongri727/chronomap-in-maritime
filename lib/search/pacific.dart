@@ -86,7 +86,7 @@ class Pacific extends StatelessWidget {
           splitLine: {show: false},
           name: 'Longitude',
           axisLine: {
-            lineStyle: {color: '#E6E1E6'}
+            lineStyle: {color: '#7fbfff'}
           }
         },
         yAxis3D: {
@@ -96,7 +96,7 @@ class Pacific extends StatelessWidget {
           splitLine: {show: false},                  
           name: 'Latitude',
           axisLine: {
-            lineStyle: {color: '#E6E1E6'}
+            lineStyle: {color: '#7fbfff'}
           }
         },
         zAxis3D: {
@@ -106,7 +106,7 @@ class Pacific extends StatelessWidget {
           splitLine: {show: false},
           name: 'timeline',
           axisLine: {
-            lineStyle: {color: '#E6E1E6'}
+            lineStyle: {color: '#7fbfff'}
           }                                 
         },
         series: [

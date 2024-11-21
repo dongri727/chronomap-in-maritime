@@ -170,7 +170,8 @@ class TabletBody extends StatelessWidget {
                                           child: ShadowedContainer(
                                               child: ButtonFormat(
                                                   label: 'Show tags',
-                                                  onPressed: model.toggleShowChips,
+                                                  onPressed: model.fetchTarget,
+                                                //onPressed: model.toggleShowChips,
                                               )),
                                         ),
                                       ),
@@ -184,7 +185,8 @@ class TabletBody extends StatelessWidget {
                                           padding: const EdgeInsets.all(8.0),
                                           child: FormatGrey(
                                             controller: targetController,
-                                            hintText: '追加したいタグを記入',
+                                            hintText: AppLocalizations.of(context)!
+                                                .newTag,
                                             onChanged: (text) {
                                               model.setNewTarget(text);
                                             },
@@ -213,7 +215,7 @@ class TabletBody extends StatelessWidget {
                                       ),
                                     ],
                                   ),
-                                  if (model.showChips && model.currentTargetsList != null)
+                                  if (model.currentTargetsList != null)
                                   Padding(
                                       padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
                                     child: Wrap(

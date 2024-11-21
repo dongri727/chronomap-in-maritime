@@ -16,7 +16,7 @@ class ScalableHintPage extends StatelessWidget {
           constraints: const BoxConstraints.expand(),
           decoration: const BoxDecoration(
             image: DecorationImage(
-              image: AssetImage('assets/images/space.png'),
+              image: AssetImage('assets/images/sea.png'),
               fit: BoxFit.cover,
             ),
           ),

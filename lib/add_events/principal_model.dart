@@ -32,14 +32,14 @@ class PrincipalModel extends ChangeNotifier {
 
   List<dynamic>? currentTargetsList;
 
-  //ボタンが押されたか判定
+/*  //ボタンが押されたか判定
   bool showChips = false;
 
   void toggleShowChips() {
     showChips = !showChips;
     fetchTarget();
     notifyListeners();
-  }
+  }*/
 
   Future<void> fetchTarget() async {
     await _fetchTargetRepository.fetchAllTargets();

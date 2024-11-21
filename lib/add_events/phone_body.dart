@@ -126,336 +126,332 @@ class PhoneBody extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
-              child: Center(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.fromLTRB(100, 50, 100, 20),
-                        child: Text(
-                          'WHAT',
-                          style: TextStyle(
-                            fontSize: 24,
-                              color: Colors.white
+              child: Scrollbar(
+                thumbVisibility: true,
+                thickness: 10.0,
+                child: Center(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.fromLTRB(100, 50, 100, 20),
+                          child: Text(
+                            'WHAT',
+                            style: TextStyle(
+                              fontSize: 24,
+                                color: Colors.white
+                            ),
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(20,0,20,0),
-                        child: TffFormat(
-                          hintText: AppLocalizations.of(context)!.name,
-                          onChanged: (text) {
-                            model.setNewName(text);
-                          },
-                          tffColor1: const Color(0xFF2f4f4f),
-                          tffColor2: const Color(0x99e6e6fa),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(20,0,20,0),
+                          child: TffFormat(
+                            hintText: AppLocalizations.of(context)!.name,
+                            onChanged: (text) {
+                              model.setNewName(text);
+                            },
+                            tffColor1: const Color(0xFF2f4f4f),
+                            tffColor2: const Color(0x99e6e6fa),
+                          ),
                         ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.fromLTRB(20,0,20,0),
-                        child: HintText(hintText: 'Select your tag(s)'),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(20,8,20,8),
-                        child: ShadowedContainer(
-                            child: ButtonFormat(
-                              label: 'Show tags',
-                              onPressed: model.toggleShowChips,
-                            )),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: FormatGrey(
-                          controller: targetController,
-                          hintText: '追加したいタグを記入',
-                          onChanged: (text) {
-                            model.setNewTarget(text);
-                          },
+                        const Padding(
+                          padding: EdgeInsets.fromLTRB(20,0,20,0),
+                          child: HintText(hintText: 'Select your tag(s)'),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(
-                            8, 8, 20, 8),
-                        child: ShadowedContainer(
-                          child: Visibility(
-                            visible: model.newTarget.trim().isNotEmpty,
-                            child: ButtonFormat(
-                              label: AppLocalizations.of(context)!
-                                  .addWord,
-                              onPressed: () async {
-                                await model.addAndFetchTarget(model.newTarget);
-                                targetController.clear();
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(20,8,20,8),
+                          child: ShadowedContainer(
+                              child: ButtonFormat(
+                                label: 'Show tags',
+                                onPressed: model.fetchTarget,
+                                //onPressed: model.toggleShowChips,
+                              )),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: FormatGrey(
+                            controller: targetController,
+                            hintText: AppLocalizations.of(context)!
+                                .newTag,
+                            onChanged: (text) {
+                              model.setNewTarget(text);
+                            },
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(
+                              8, 8, 20, 8),
+                          child: ShadowedContainer(
+                            child: Visibility(
+                              visible: model.newTarget.trim().isNotEmpty,
+                              child: ButtonFormat(
+                                label: AppLocalizations.of(context)!
+                                    .addWord,
+                                onPressed: () async {
+                                  await model.addAndFetchTarget(model.newTarget);
+                                  targetController.clear();
+                                },
+                              ),
+                            ),
+                          ),
+                        ),
+                        if (model.currentTargetsList != null)
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+                            child: Wrap(
+                              spacing: 4.0,
+                              children: model.currentTargetsList!.map((item) {
+                                return model.buildTargetWidget(item);
+                              }).toList(),
+                            ),
+                          ),
+                        const Padding(
+                          padding: EdgeInsets.fromLTRB(100, 20, 100, 20),
+                          child: Text(
+                            'WHEN',
+                            style: TextStyle(
+                              fontSize: 24,
+                                color: Colors.white
+                            ),
+                          ),
+                        ),
+
+                        Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: ShadowedContainer(
+                            child: CustomDropdownButton(
+                              selectedValue:
+                              model.selectedCalendar,
+                              options: optionsP,
+                              onChanged: (value) {
+                                model.setCalendar(value);
                               },
                             ),
                           ),
                         ),
-                      ),
-                      if (model.showChips && model.currentTargetsList != null)
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
-                          child: Wrap(
-                            spacing: 4.0,
-                            children: model.currentTargetsList!.map((item) {
-                              return model.buildTargetWidget(item);
-                            }).toList(),
-                          ),
-                        ),
-                      const Padding(
-                        padding: EdgeInsets.fromLTRB(100, 20, 100, 20),
-                        child: Text(
-                          'WHEN',
-                          style: TextStyle(
-                            fontSize: 24,
-                              color: Colors.white
-                          ),
-                        ),
-                      ),
-
-                      Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: ShadowedContainer(
-                          child: CustomDropdownButton(
-                            selectedValue:
-                            model.selectedCalendar,
-                            options: optionsP,
-                            onChanged: (value) {
-                              model.setCalendar(value);
-                            },
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(30, 8, 30, 8),
-                        child: NumFormat(
-                          hintText: 'year',
-                          onChanged: (value) {
-                            model.setNewYearD(value);
-                          },
-                          tffColor1: Colors.black54,
-                          tffColor2: const Color(0x99e6e6fa),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(30, 8, 30, 8),
-                        child: NumFormat(
-                          hintText: 'Month 1-12 or 0',
-                          onChanged: (value) {
-                            model.setNewMonth(value);
-                          },
-                          tffColor1: Colors.black54,
-                          tffColor2: const Color(0x99e6e6fa),
-                        ),
-                      ),
-                      Padding(
-                          padding: const EdgeInsets.fromLTRB(
-                              30, 8, 30, 8),
+                          padding: const EdgeInsets.fromLTRB(30, 8, 30, 8),
                           child: NumFormat(
-                            hintText: 'Date 1-31 or 0',
+                            hintText: 'year',
                             onChanged: (value) {
-                              model.setNewDay(value);
+                              model.setNewYearD(value);
                             },
                             tffColor1: Colors.black54,
                             tffColor2: const Color(0x99e6e6fa),
-                          )),
-                      const Padding(
-                        padding: EdgeInsets.fromLTRB(100, 20, 100, 20),
-                        child: Text(
-                          'WHERE',
-                          style: TextStyle(
-                              fontSize: 24,
-                              color: Colors.white
                           ),
                         ),
-                      ),
-                      //location
-                      Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: ShadowedContainer(
-                          child: RadioButtonRowFormat(
-                            options: optionsL,
-                            onChanged: (String? value) {
-                              model.selectedOption = value;
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(30, 8, 30, 8),
+                          child: NumFormat(
+                            hintText: 'Month 1-12 or 0',
+                            onChanged: (value) {
+                              model.setNewMonth(value);
                             },
+                            tffColor1: Colors.black54,
+                            tffColor2: const Color(0x99e6e6fa),
                           ),
                         ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: ShadowedContainer(
-                              child: ButtonFormat(
-                                label: AppLocalizations.of(context)!
-                                    .showOptions,
-                                onPressed: () async {
-                                  await model
-                                      .listRadioButtonBasis(model.selectedOption);
-                                },
-                              ),
+                        Padding(
+                            padding: const EdgeInsets.fromLTRB(
+                                30, 8, 30, 8),
+                            child: NumFormat(
+                              hintText: 'Date 1-31 or 0',
+                              onChanged: (value) {
+                                model.setNewDay(value);
+                              },
+                              tffColor1: Colors.black54,
+                              tffColor2: const Color(0x99e6e6fa),
+                            )),
+                        const Padding(
+                          padding: EdgeInsets.fromLTRB(100, 20, 100, 20),
+                          child: Text(
+                            'WHERE',
+                            style: TextStyle(
+                                fontSize: 24,
+                                color: Colors.white
                             ),
                           ),
-                          BlankTextFormat(
-                            text: model.location,
-                          ),
-                        ],
-                      ),
-                      //precise
-                      Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: ShadowedContainer(
-                          child: RadioButtonRowFormat(
-                            options: optionsO,
-                            onChanged: (String? value) {
-                              model.selectedOption = value;
-                            },
-                          ),
                         ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: ShadowedContainer(
-                              child: ButtonFormat(
-                                label: AppLocalizations.of(context)!
-                                    .showOptions,
-                                onPressed: () async {
-                                  await model.replaceLocationWithPrecise();
-                                },
-                              ),
-                            ),
-                          ),
-                          BlankTextFormat(
-                            text: model.precise,
-                          ),
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: FormatGrey(
-                          controller: controller,
-                          hintText:
-                          AppLocalizations.of(context)!
-                              .newWord,
-                          onChanged: (text) {
-                            model.setNewPlace(text);
-                          },
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(
-                            8, 8, 20, 8),
-                        child: ShadowedContainer(
-                          child: Visibility(
-                            visible: model.newPlace.trim().isNotEmpty,
-                            child: ButtonFormat(
-                              label: AppLocalizations.of(context)!
-                                  .addWord,
-                              onPressed: () async {
-                                model.addAndFetchRadioButtonBasis(model.selectedOption);
+                        //location
+                        Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: ShadowedContainer(
+                            child: RadioButtonFormat(
+                              options: optionsL,
+                              onChanged: (String? value) {
+                                model.selectedOption = value;
                               },
                             ),
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Wrap(
-                          spacing: 5.0,
-                          children: model.currentDisplayList.map((item) {
-                            return ChoiceSIFormat(
-                              // 国名・海洋名を表示する場合
-                                choiceSIList: model.selectedOption == 'Current Country-name' ||
-                                    model.selectedOption == 'Nom actuel du pays' ||
-                                    model.selectedOption == '現在の国名' ||
-                                    model.selectedOption == 'Ocean-name' ||
-                                    model.selectedOption == 'Nom de l\'océan' ||
-                                    model.selectedOption == '海洋名'
-                                    ? model.filtersLocation // 国名・海洋名を表示
-                                    : model.filtersPlaces,    // 地名・海域名を表示
-                                choiceSIKey: item,
-                                onChoiceSISelected: (choiceSIKey) {
-                                  // 選択された要素に基づき更新処理
-                                  if (model.selectedOption == 'Current Country-name' ||
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ShadowedContainer(
+                            child: ButtonFormat(
+                              label: AppLocalizations.of(context)!
+                                  .showOptions,
+                              onPressed: () async {
+                                await model
+                                    .listRadioButtonBasis(model.selectedOption);
+                              },
+                            ),
+                          ),
+                        ),
+                        BlankTextFormat(
+                          text: model.location,
+                        ),
+                        //precise
+                        Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: ShadowedContainer(
+                            child: RadioButtonFormat(
+                              options: optionsO,
+                              onChanged: (String? value) {
+                                model.selectedOption = value;
+                              },
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ShadowedContainer(
+                            child: ButtonFormat(
+                              label: AppLocalizations.of(context)!
+                                  .showOptions,
+                              onPressed: () async {
+                                await model.replaceLocationWithPrecise();
+                              },
+                            ),
+                          ),
+                        ),
+                        BlankTextFormat(
+                          text: model.precise,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: FormatGrey(
+                            controller: controller,
+                            hintText:
+                            AppLocalizations.of(context)!
+                                .newWord,
+                            onChanged: (text) {
+                              model.setNewPlace(text);
+                            },
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(
+                              8, 8, 20, 8),
+                          child: ShadowedContainer(
+                            child: Visibility(
+                              visible: model.newPlace.trim().isNotEmpty,
+                              child: ButtonFormat(
+                                label: AppLocalizations.of(context)!
+                                    .addWord,
+                                onPressed: () async {
+                                  model.addAndFetchRadioButtonBasis(model.selectedOption);
+                                },
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Wrap(
+                            spacing: 5.0,
+                            children: model.currentDisplayList.map((item) {
+                              return ChoiceSIFormat(
+                                // 国名・海洋名を表示する場合
+                                  choiceSIList: model.selectedOption == 'Current Country-name' ||
                                       model.selectedOption == 'Nom actuel du pays' ||
                                       model.selectedOption == '現在の国名' ||
                                       model.selectedOption == 'Ocean-name' ||
                                       model.selectedOption == 'Nom de l\'océan' ||
-                                      model.selectedOption == '海洋名') {
-                                    // 国名・海洋名の場合
-                                    model.chosenLocation = choiceSIKey;
-                                    model.updateLocation(choiceSIKey);
-                                  } else {
-                                    // 地名・海域名の場合
-                                    model.chosenPlace = choiceSIKey;
-                                    model.updatePrecise(choiceSIKey);
-                                  }
-                                });
-                          }).toList(),
-                        ),
-                      ),
-                      Padding(
-                          padding: const EdgeInsets.fromLTRB(
-                              20, 50, 20, 20),
-                          child: ShadowedContainer(
-                              child: Padding(
-                                padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
-                                child: Text(AppLocalizations.of(context)!
-                                    .ifYouMayKnow),
-                              ))),
-                      Padding(
-                        padding:
-                        const EdgeInsets.all(8.0),
-                        child: ShadowedContainer(
-                          child: RadioButtonRowFormat(
-                              options: model.ns,
-                              onChanged: (String? value) {
-                                model.selectedOption = value!;
-                              }),
-                        ),
-                      ),
-                      Column(
-                        children: [
-
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: NumFormat(
-                              hintText: 'latitude',
-                              onChanged: (value) {
-                                model.nsSwitch(value);
-                              },
-                              tffColor1: Colors.black54,
-                              tffColor2: const Color(0x99e6e6fa),
-                            ),
+                                      model.selectedOption == '海洋名'
+                                      ? model.filtersLocation // 国名・海洋名を表示
+                                      : model.filtersPlaces,    // 地名・海域名を表示
+                                  choiceSIKey: item,
+                                  onChoiceSISelected: (choiceSIKey) {
+                                    // 選択された要素に基づき更新処理
+                                    if (model.selectedOption == 'Current Country-name' ||
+                                        model.selectedOption == 'Nom actuel du pays' ||
+                                        model.selectedOption == '現在の国名' ||
+                                        model.selectedOption == 'Ocean-name' ||
+                                        model.selectedOption == 'Nom de l\'océan' ||
+                                        model.selectedOption == '海洋名') {
+                                      // 国名・海洋名の場合
+                                      model.chosenLocation = choiceSIKey;
+                                      model.updateLocation(choiceSIKey);
+                                    } else {
+                                      // 地名・海域名の場合
+                                      model.chosenPlace = choiceSIKey;
+                                      model.updatePrecise(choiceSIKey);
+                                    }
+                                  });
+                            }).toList(),
                           ),
-                        ],
-                      ),
-                      Padding(
-                        padding:
-                        const EdgeInsets.all(8.0),
-                        child: ShadowedContainer(
-                          child: RadioButtonRowFormat(
-                              options: model.ew,
-                              onChanged: (String? value) {
-                                model.selectedOption = value!;
-                              }),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: NumFormat(
-                          hintText: 'longitude',
-                          onChanged: (value) {
-                            model.ewSwitch(value);
-                          },
-                          tffColor1: Colors.black54,
-                          tffColor2: const Color(0x99e6e6fa),
+                        Padding(
+                            padding: const EdgeInsets.fromLTRB(
+                                20, 50, 20, 20),
+                            child: ShadowedContainer(
+                                child: Padding(
+                                  padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
+                                  child: Text(AppLocalizations.of(context)!
+                                      .ifYouMayKnow),
+                                ))),
+                        Padding(
+                          padding:
+                          const EdgeInsets.all(8.0),
+                          child: ShadowedContainer(
+                            child: RadioButtonRowFormat(
+                                options: model.ns,
+                                onChanged: (String? value) {
+                                  model.selectedOption = value!;
+                                }),
+                          ),
                         ),
-                      ),
+                        Column(
+                          children: [
 
-                    ],
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: NumFormat(
+                                hintText: 'latitude',
+                                onChanged: (value) {
+                                  model.nsSwitch(value);
+                                },
+                                tffColor1: Colors.black54,
+                                tffColor2: const Color(0x99e6e6fa),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Padding(
+                          padding:
+                          const EdgeInsets.all(8.0),
+                          child: ShadowedContainer(
+                            child: RadioButtonRowFormat(
+                                options: model.ew,
+                                onChanged: (String? value) {
+                                  model.selectedOption = value!;
+                                }),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: NumFormat(
+                            hintText: 'longitude',
+                            onChanged: (value) {
+                              model.ewSwitch(value);
+                            },
+                            tffColor1: Colors.black54,
+                            tffColor2: const Color(0x99e6e6fa),
+                          ),
+                        ),
+
+                      ],
+                    ),
                   ),
                 ),
               ),

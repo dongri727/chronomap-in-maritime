@@ -68,6 +68,26 @@ dev_dependencies:
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
+flutter_native_splash:
+  color: '#111124'
+  image: 'assets/images/splash_768.png'
+  color_dark: '#111124'
+  image_dark: 'assets/images/splash_768.png'
+  fullscreen: true
+  android_12:
+    icon_background_color: '#111124'
+    image: 'assets/images/splash_1152.png'
+    icon_background_color_dark: '#111124'
+    image_dark: 'assets/images/splash_1152.png'
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: 'assets/images/maritime.png'
+  adaptive_icon_background: '#111124'
+  adaptive_icon_foreground: 'assets/images/icon_adaptive.png'
+
+
 # The following section is specific to Flutter packages.
 flutter:
 
