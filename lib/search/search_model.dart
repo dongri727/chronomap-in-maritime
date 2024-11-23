@@ -50,7 +50,6 @@ class SearchModel extends ChangeNotifier {
   Future<void> fetchTarget() async {
     await fetchTargetRepository.fetchAllTargets();
     currentTargetsList = fetchTargetRepository.targetsList;
-    print(currentTargetsList);
     notifyListeners();
   }
 
@@ -80,7 +79,6 @@ class SearchModel extends ChangeNotifier {
   void setSelectedDetailId(List<int> id) {
     selectedDetailIds = id;
     notifyListeners();
-    print(selectedDetailIds);
   }
 
   Future<void> fetchPrincipalByDetailId({List<int>? detailIds}) async {
@@ -108,7 +106,6 @@ class SearchModel extends ChangeNotifier {
     maritimeData = fetchWithMapRepository.listWithMap.map((withMap) {
 
       String japaneseName = fetchJapaneseRepository.getJapaneseName(withMap.principalId);
-      print("Japanese name for PrincipalId ${withMap.principalId}: $japaneseName");
 
       return {
         "value": [withMap.longitude, withMap.latitude, withMap.logarithm],
@@ -121,7 +118,6 @@ class SearchModel extends ChangeNotifier {
     pacificData = fetchWithMapRepository.listWithMap.map((withMap) {
 
       String japaneseName = fetchJapaneseRepository.getJapaneseName(withMap.principalId);
-      print("Japanese name for PrincipalId ${withMap.principalId}: $japaneseName");
 
       return {
         "value": [shiftLongitude(withMap.longitude), withMap.latitude, withMap.logarithm],
@@ -130,8 +126,6 @@ class SearchModel extends ChangeNotifier {
             : withMap.affair,
       };
     }).toList();
-
-    print("Final maritimeData: $pacificData");
   }
 
   Future<void> fetchCoastLine() async {
@@ -189,7 +183,6 @@ class SearchModel extends ChangeNotifier {
   Future<void> showResult(BuildContext context, int selectedDetailId) async {
     //todo アプリが日本語バージョンを選択しており取得済みのList[Japanese]がある場合、これを受け取る。
     await fetchPrincipalByDetailId(detailIds: [selectedDetailId]);//principalを取る。
-    print(listPrincipal);
     if (!context.mounted) return;
     await fetchMapData(principalIds, context); //principalに相当するMapを取り、対応する日本語を取り込む。
     //print(principalIds);

@@ -83,9 +83,9 @@ flutter_native_splash:
 flutter_launcher_icons:
   android: true
   ios: true
-  image_path: 'assets/images/maritime.png'
+  image_path: 'assets/images/maritime_icon.png'
   adaptive_icon_background: '#111124'
-  adaptive_icon_foreground: 'assets/images/icon_adaptive.png'
+  adaptive_icon_foreground: 'assets/images/maritime_adaptive.png'
 
 
 # The following section is specific to Flutter packages.

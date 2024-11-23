@@ -1,7 +1,7 @@
 import 'package:acorn_client/acorn_client.dart';
-import 'package:chronomap_in_maritime/search/search_model.dart';
+//import 'package:chronomap_in_maritime/search/search_model.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+//import 'package:provider/provider.dart';
 
 class ClassicViewPage extends StatelessWidget {
   final List<Principal> listPrincipal;
@@ -11,7 +11,7 @@ class ClassicViewPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final searchModel = Provider.of<SearchModel>(context);
+    //final searchModel = Provider.of<SearchModel>(context);
     return Scaffold(
       body: Container(
         constraints: const BoxConstraints.expand(),
@@ -31,7 +31,7 @@ class ClassicViewPage extends StatelessWidget {
                 child: ListView.builder(
                   itemCount: listPrincipal.length,
                   itemBuilder: (context, index) {
-                    final principalId = listPrincipal[index].id;
+                    //final principalId = listPrincipal[index].id;
                     return Card(
                       margin:
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 4),

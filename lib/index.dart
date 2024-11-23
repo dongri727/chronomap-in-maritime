@@ -1,11 +1,8 @@
 import 'package:chronomap_in_maritime/search/search_page.dart';
-import 'package:chronomap_in_maritime/globe_test.dart';
 import 'package:chronomap_in_maritime/scalable/menu/scalable.dart';
-import 'package:chronomap_in_maritime/test1_page.dart';
 import 'package:chronomap_in_maritime/utils/theme.dart';
 import 'package:flutter/material.dart';
 import 'add_events/principal_page.dart';
-import 'search/pacific.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class IndexPage extends StatefulWidget {

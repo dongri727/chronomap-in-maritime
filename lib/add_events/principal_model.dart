@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:acorn_client/acorn_client.dart';
 import '../fetch/fetch_place.dart';
-import '../fetch/fetch_principal.dart';
+//import '../fetch/fetch_principal.dart';
 import '../lists/countries_list.dart';
 import '../lists/oceans_list.dart';
 import '../lists/epoch_list.dart';
@@ -15,12 +15,12 @@ import 'dart:math' as math;
 
 class PrincipalModel extends ChangeNotifier {
 
-  late final FetchPrincipalRepository _fetchPrincipalRepository;
+  //late final FetchPrincipalRepository _fetchPrincipalRepository;
   late final FetchPlaceRepository _fetchPlaceRepository;
   late final FetchTargetRepository _fetchTargetRepository;
 
   PrincipalModel() {
-    _fetchPrincipalRepository = FetchPrincipalRepository();
+    //_fetchPrincipalRepository = FetchPrincipalRepository();
     _fetchPlaceRepository = FetchPlaceRepository();
     _fetchTargetRepository = FetchTargetRepository();
   }
@@ -31,15 +31,6 @@ class PrincipalModel extends ChangeNotifier {
   String selectedTarget ='';
 
   List<dynamic>? currentTargetsList;
-
-/*  //ボタンが押されたか判定
-  bool showChips = false;
-
-  void toggleShowChips() {
-    showChips = !showChips;
-    fetchTarget();
-    notifyListeners();
-  }*/
 
   Future<void> fetchTarget() async {
     await _fetchTargetRepository.fetchAllTargets();
@@ -60,7 +51,6 @@ class PrincipalModel extends ChangeNotifier {
       await _fetchTargetRepository.addTargetAndFetch(newTarget, newDetailId);
       currentTargetsList = _fetchTargetRepository.targetsList;
       notifyListeners();
-      print(currentTargetsList);
     }
   }
 
@@ -73,7 +63,6 @@ class PrincipalModel extends ChangeNotifier {
       filteredValues: filtersDetailId,
       filteredKeys: filtersTarget,
       onSelected: (key, value) {
-        print('Selected key: $key, value: $value'); // デバッグ用
         if (filtersDetailId.contains(value)) {
           filtersDetailId.add(value); // 選択解除
           selectedDetailIds.add(value);
@@ -83,7 +72,6 @@ class PrincipalModel extends ChangeNotifier {
         }
         updateSelectedTarget(key);
         notifyListeners();
-        print(selectedDetailIds); // デバッグ用
       }
     );
   }
@@ -95,7 +83,6 @@ class PrincipalModel extends ChangeNotifier {
   void setSelectedDetailId(List<int> id) {
     selectedDetailIds = id;
     notifyListeners();
-    print(selectedDetailIds);
   }
 
   //Targetを記入
