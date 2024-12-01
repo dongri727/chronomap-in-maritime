@@ -49,5 +49,7 @@
 		<true/>
 		<key>UIViewControllerBasedStatusBarAppearance</key>
 		<false/>
+		<key>NSPhotoLibraryUsageDescription</key>
+        <string>Photos are not used in this application.</string>
 	</dict>
 </plist>

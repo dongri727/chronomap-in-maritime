@@ -120,7 +120,7 @@ class OnGlobeView extends StatelessWidget {
           label: {
                 show: true,
                 textStyle: {
-                  fontSize: 20,
+                  fontSize: 12,
                   borderWidth: 1
                 },
                 formatter: function(param) {
