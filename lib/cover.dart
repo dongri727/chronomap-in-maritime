@@ -1,6 +1,6 @@
 import 'package:chronomap_in_maritime/fetch/fetch_japanese.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'hints/info_page.dart';
 import 'index.dart';

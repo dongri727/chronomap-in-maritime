@@ -1,0 +1,127 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
+import 'app_localizations.dart';
+
+// ignore_for_file: type=lint
+
+/// The translations for French (`fr`).
+class AppLocalizationsFr extends AppLocalizations {
+  AppLocalizationsFr([String locale = 'fr']) : super(locale);
+
+  @override
+  String get cover => 'assets/images/cover_fr.png';
+
+  @override
+  String get infoA => 'Il s\'agit d\'une application spécialisée dans l\'entrée et la sortie de données liées aux événements maritimes de la \"ChronoMap\". La \"ChronoMap\" est une base de données qui englobe tous les événements historiques depuis l\'origine de l\'univers jusqu\'à l\'éternel \'maintenant,\' sans égard au domaine. Elle vise à afficher correctement les distances temporelles et spatiales, avec \'quand\' et \'où\' comme éléments obligatoires.';
+
+  @override
+  String get infoB => 'Version web de la \"ChronoMap\"';
+
+  @override
+  String get infoC => 'Version web des vues 3D et 4D';
+
+  @override
+  String get infoD => 'Comment utiliser la \"ChronoMap\"';
+
+  @override
+  String get infoE => 'Cette application ne récupère aucune de vos informations personnelles, ni ne suit ni n\'utilise les informations de votre appareil.';
+
+  @override
+  String get infoF => 'Les informations historiques que vous enregistrez ne vous sont pas liées. Il n\'y a pas d\'enregistrement de ce que vous inscrivez ou recherchez.';
+
+  @override
+  String get infoG => 'Les informations contraires aux objectifs de la \"ChronoMap\" seront traitées par l\'administrateur de la manière suivante.\n1. Correction\n2. Arrêt de la visualisation (peut être rendu public à l\'avenir)\n3. Suppression';
+
+  @override
+  String get infoH => 'Les informations historiques que vous enregistrez sont traitées comme un bien public, et vous-même ne pouvez pas les supprimer. Veuillez faire attention à ne pas écrire d\'informations personnelles. Si vous souhaitez supprimer des informations enregistrées par erreur ou trouver des informations qui devraient être supprimées, veuillez contacter l\'adresse suivante.';
+
+  @override
+  String get infoI => 'Nous recherchons des personnes pour nous rejoindre dans le développement de la \"ChronoMap.\" Si vous êtes un ingénieur capable de gérer Flutter, AWS, PostgreSQL, Unity, etc., ou pouvez aider à la saisie et à la correction des données, veuillez nous contacter ci-dessous.';
+
+  @override
+  String get scalableA => 'Cette page affiche et trace les événements maritime enregistrés dans la base de données sur une chronologie ajustable. Lorsque vous enregistrez des données, elles seront reflétées en temps réel.';
+
+  @override
+  String get scalableB => 'Étape 1\nAppuyez toujours sur le bouton \"Get\" pour récupérer les données';
+
+  @override
+  String get scalableC => 'Étape 2\nLes 7 options en bas vous permettent de sélectionner la zone d\'affichage initiale. Vous pouvez faire défiler l\'ensemble de la chronologie après l\'affichage initial.';
+
+  @override
+  String get scalableD => 'La chronologie logarithmique est réglée avec l\'année 2100 comme base, le temps s\'écoulant de haut en bas. Les événements sont fixés sur la chronologie, de sorte que les événements qui se sont produits à des moments proches sont affichés près les uns des autres, tandis que les événements qui se sont produits sur une plus longue période sont affichés plus loin. En zoomant, les détails des événements de la même époque s\'affichent, tandis qu\'un zoom arrière permet d\'avoir une vue d\'ensemble des périodes plus longues.';
+
+  @override
+  String get scalableE => 'Si vous trouvez des événements mal placés sur la chronologie, veuillez nous contacter à l\'adresse suivante.';
+
+  @override
+  String get addHintA => 'Dans le Dans le \"ChronoMap\", un événement historique désigne une occurrence unique contenant des informations sur « quand » et « où ». Par exemple, « La recherche par Colomb d’une route maritime vers l’Inde » n’est pas considéré comme un événement unique. Une entrée correcte serait : « 12 octobre 1492, Colomb atteint l’île de Guanahani dans les Antilles, Bahamas, île San Salvador. »';
+
+  @override
+  String get addHintB => 'Pour associer les événements et effectuer des recherches efficacement, utilisez les étiquettes de recherche. Touchez « Afficher les étiquettes » pour voir les étiquettes existantes. Vous pouvez en sélectionner une ou plusieurs.';
+
+  @override
+  String get addHintC => 'Si vous souhaitez ajouter une nouvelle étiquette de recherche, saisissez-la dans le champ « Saisir une étiquette ». Une fois cela fait, le bouton « Ajouter une étiquette » apparaîtra. Touchez-le pour ajouter la nouvelle étiquette à la liste des options, puis sélectionnez-la.';
+
+  @override
+  String get addHintD => 'Pour la section « QUAND », commencez par choisir l’unité à l’aide du bouton déroulant, puis saisissez l’année, le mois et le jour. Si le mois ou le jour est inconnu, saisissez 0. Notez cependant que les événements avec un mois et un jour à 0 peuvent ne pas respecter l\'ordre chronologique exact avec d\'autres événements de la même année.';
+
+  @override
+  String get addHintE => 'Pour la section « OÙ », commencez par sélectionner un nom de pays ou un nom d’océan, puis ajoutez un nom de lieu ou une zone maritime. Bien que les noms de pays et d’océans ne puissent pas être ajoutés, les noms de lieux et de zones maritimes peuvent l’être. Lorsque vous saisissez un nouveau nom, le bouton « Ajouter » apparaîtra. Touchez-le pour ajouter le nom à la liste des options, puis sélectionnez-le.';
+
+  @override
+  String get addHintF => 'Les coordonnées de latitude et longitude doivent être saisies au format décimal. Il n’est pas nécessaire d’ajouter un signe moins pour les latitudes sud ou les longitudes ouest. Les événements avec des coordonnées de latitude et de longitude seront reflétés immédiatement sur tous les écrans d’affichage. Si la latitude et la longitude ne sont pas saisies, l’événement ne sera affiché que sur la ligne temporelle extensible et la vue CLASSIC.';
+
+  @override
+  String get indexA => 'Enregistrer des Evénements';
+
+  @override
+  String get indexB => 'Chronologie Evolutive';
+
+  @override
+  String get indexC => 'Chercher et Voir';
+
+  @override
+  String get name => 'Evénement(dans les 50 lettres)';
+
+  @override
+  String get showOptions => 'Efficher et sélectionner des options';
+
+  @override
+  String get newWord => 'Entrez le nom de port, île et la mer ';
+
+  @override
+  String get newTag => 'Saisissez l’étiquette que vous souhaitez ajouter.';
+
+  @override
+  String get addWord => 'Ajouter le mot';
+
+  @override
+  String get ifYouMayKnow => 'Si possible, veuillez également entrer les informations suivantes';
+
+  @override
+  String get searchA => 'Recherche';
+
+  @override
+  String get searchB => 'Qu\'est-ce qui restreint votre recherche ?';
+
+  @override
+  String get searchC => 'Confirmer';
+
+  @override
+  String get searchHintA => 'Touchez le bouton « Afficher les étiquettes » et sélectionnez une option dans la liste. Comme la recherche croisée n’est pas encore implémentée, si vous sélectionnez plusieurs options, seule la dernière choisie sera valide.';
+
+  @override
+  String get searchHintB => 'Si vous touchez le bouton « Afficher les résultats » sans sélectionner une étiquette, une erreur se produira. Pour afficher tous les éléments, sélectionnez l’étiquette « All ».';
+
+  @override
+  String get searchHintC => 'L’écran « Afficher les résultats » propose quatre types d’affichage différents. Tous montrent le même contenu.';
+
+  @override
+  String get searchHintD => 'CLASSIC : Une chronologie traditionnelle où la date, le nom de l’événement et le lieu sont affichés ensemble.';
+
+  @override
+  String get searchHintE => 'Atlantic / Pacific : Une vue 3D avec une carte du monde sur le plan XY et le passage du temps représenté le long de l’axe Z. La vue est entièrement rotative à 360°. Il est recommandé d’utiliser cet affichage en mode paysage.';
+
+  @override
+  String get searchHintF => 'Globe : Une vue 3D affichée sur un globe. La vue est entièrement rotative à 360°. Notez que le passage du temps n’est pas affiché dans ce format. Veuillez vous référer aux autres formats pour la progression temporelle.';
+}

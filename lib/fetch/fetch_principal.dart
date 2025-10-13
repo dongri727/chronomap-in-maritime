@@ -33,5 +33,4 @@ class FetchPrincipalRepository {
       debugPrint('$e');
     }
   }
-
 }

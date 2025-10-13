@@ -1,4 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- インターネットアクセスのパーミッションを追加 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:label="chronomap_in_maritime"
         android:name="${applicationName}"

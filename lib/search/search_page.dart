@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../hints/search_hint_page.dart';
 import '../utils/shadowed_container.dart';
 import '../utils/tff_format.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../l10n/app_localizations.dart';
 
 class SearchPage extends StatelessWidget {
   const SearchPage({super.key});

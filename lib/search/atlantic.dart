@@ -62,20 +62,13 @@ class Atlantic extends StatelessWidget {
               option: '''
     (function() {
       return {
-        tooltip: {
-          show: true,
-          formatter: function(params) {
-            var data = params.data;
-            return 'Name: ' + data.name;
-          
-          }
-        },
+        tooltip: {},
         grid3D: {
           viewControl: {
             alpha: 40,
             beta: -60,
             projection: 'orthographic'
-          }
+          },
         },
         xAxis3D: {
           type: 'value',

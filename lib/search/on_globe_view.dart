@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_echarts/flutter_echarts.dart';
 import '../../gl_script.dart';
@@ -59,7 +60,6 @@ class OnGlobeView extends StatelessWidget {
             shadow: false
           },
           ambientCubemap: {
-            texture: "asset://assets/lake.hdr",
             exposure: 1,
             diffuseIntensity: 0.5,
             specularIntensity: 2
@@ -135,6 +135,23 @@ class OnGlobeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    if (Platform.isAndroid) {
+      // If the device is Android, show an informational message
+      return Scaffold(
+        key: scaffoldKey,
+        body: const Center(
+          child: Text(
+            "申し訳ありません。\nこの表示は現在、\nこの機種ではご利用いただけません。\n\n"
+                "We apologize, \nthis view is currently unavailable \non this device.\n\n"
+                "Nous nous excusons, \ncette view n'est actuellement pas disponible\nsur cet appareil.",
+            style: TextStyle(fontSize: 16),
+            textAlign: TextAlign.center,
+          ),
+        ),
+      );
+    }
+
     if (maritimeData == null || globeLine == null) {
       return const Center(child: CircularProgressIndicator());
     }

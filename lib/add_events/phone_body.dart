@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../hints/add_hint_page.dart';
 import '../index.dart';
+import '../l10n/app_localizations.dart';
 import '../utils/blank_text_format.dart';
 import '../utils/button_format.dart';
 import '../utils/chips_format.dart';
@@ -11,7 +12,7 @@ import '../utils/format_grey.dart';
 import '../utils/navi_button.dart';
 import '../utils/shadowed_container.dart';
 import '../utils/tff_format.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class PhoneBody extends StatelessWidget {
   const PhoneBody({super.key});

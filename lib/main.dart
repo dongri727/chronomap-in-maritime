@@ -8,12 +8,24 @@ import 'scalable/timeline/timeline.dart';
 import 'search/search_model.dart';
 import 'serverpod_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../l10n/app_localizations.dart';
 import 'utils/theme.dart';
+import 'package:flutter/services.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initializeServerpodClient();
+
+  // Enable modern edge-to-edge system bars on Android to avoid deprecated APIs.
+  // See: SystemUiMode.edgeToEdge (Flutter 3.13+) which maps to WindowInsetsController on Android.
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
+    systemNavigationBarColor: Colors.transparent,
+    systemNavigationBarDividerColor: Colors.transparent,
+    systemNavigationBarContrastEnforced: false,
+  ));
+
   runApp(const MyApp());
 }
 
@@ -85,5 +97,3 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
-
-
