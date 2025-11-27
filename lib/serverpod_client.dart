@@ -6,6 +6,7 @@ late Client client;
 Future<void> initializeServerpodClient() async {
 
   client = Client(
-    'https://api.laporte.academy/',
+    //'https://api.laporte.academy/',
+    'https://chronomap.api.serverpod.space/'
   )..connectivityMonitor = FlutterConnectivityMonitor();
 }

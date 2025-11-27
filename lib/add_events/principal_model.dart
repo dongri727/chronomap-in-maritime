@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:acorn_client/acorn_client.dart';
 import '../fetch/fetch_place.dart';
-//import '../fetch/fetch_principal.dart';
 import '../lists/countries_list.dart';
 import '../lists/oceans_list.dart';
 import '../lists/epoch_list.dart';
@@ -15,12 +14,10 @@ import 'dart:math' as math;
 
 class PrincipalModel extends ChangeNotifier {
 
-  //late final FetchPrincipalRepository _fetchPrincipalRepository;
   late final FetchPlaceRepository _fetchPlaceRepository;
   late final FetchTargetRepository _fetchTargetRepository;
 
   PrincipalModel() {
-    //_fetchPrincipalRepository = FetchPrincipalRepository();
     _fetchPlaceRepository = FetchPlaceRepository();
     _fetchTargetRepository = FetchTargetRepository();
   }
@@ -90,8 +87,6 @@ class PrincipalModel extends ChangeNotifier {
     newTarget = text;
     notifyListeners();
   }
-
-
 
   double log10(num x) => log(x) / ln10;
 
@@ -449,7 +444,12 @@ class PrincipalModel extends ChangeNotifier {
           location: location,
           precise: precise,
         );
+
+        debugPrint('$newPoint');
+
         var principalId = await client.principal.addPrincipal(principal);
+
+        debugPrint('$principalId');
 
         //japanese
         try {
@@ -497,7 +497,9 @@ class PrincipalModel extends ChangeNotifier {
         await client.withGlobe.addWithGlobe(withGlobe);
 
         return 0;
-      } catch (e) {
+      } catch (e, st) {
+        debugPrint('save() failed: $e');
+        debugPrint('catch st: $st');
         return 1;
       }
     } else {

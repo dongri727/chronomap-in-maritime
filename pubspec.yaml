@@ -33,7 +33,7 @@ dependencies:
   flutter_echarts: ^2.5.0
   flutter_localizations:
     sdk: flutter
-  serverpod_flutter: ^2.1.5
+  serverpod_flutter: 2.9.2
   acorn_client:
     git:
       url: https://github.com/dongri727/acorn
