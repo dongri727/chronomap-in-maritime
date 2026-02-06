@@ -13,7 +13,6 @@ import 'principal_page.dart';
 import 'dart:math' as math;
 
 class PrincipalModel extends ChangeNotifier {
-
   late final FetchPlaceRepository _fetchPlaceRepository;
   late final FetchTargetRepository _fetchTargetRepository;
 
@@ -25,7 +24,7 @@ class PrincipalModel extends ChangeNotifier {
   // 選択された id を格納する変数
   late List<int> selectedDetailIds = [];
 
-  String selectedTarget ='';
+  String selectedTarget = '';
 
   List<dynamic>? currentTargetsList;
 
@@ -41,9 +40,10 @@ class PrincipalModel extends ChangeNotifier {
   int newDetailId = 0;
 
   Future<void> addAndFetchTarget(newTarget) async {
-    if(newTarget.isNotEmpty){
+    if (newTarget.isNotEmpty) {
       //detailに保存してidを取得
-      newDetailId = await _fetchTargetRepository.addTargetToDetail('target', newTarget);
+      newDetailId =
+          await _fetchTargetRepository.addTargetToDetail('target', newTarget);
       //idを用いてtargetに保存
       await _fetchTargetRepository.addTargetAndFetch(newTarget, newDetailId);
       currentTargetsList = _fetchTargetRepository.targetsList;
@@ -51,27 +51,26 @@ class PrincipalModel extends ChangeNotifier {
     }
   }
 
-
   //ChipでTargetを表示
   Widget buildTargetWidget(dynamic item) {
     return buildFilterFormatImediat(
-      filterValue: item.detailId,
-      filterKey: (item as Target).specialite,
-      filteredValues: filtersDetailId,
-      filteredKeys: filtersTarget,
-      onSelected: (key, value) {
-        if (filtersDetailId.contains(value)) {
-          filtersDetailId.add(value); // 選択解除
-          selectedDetailIds.add(value);
-        } else {
-          filtersDetailId.remove(value); // 選択
-          selectedDetailIds.remove(value);
-        }
-        updateSelectedTarget(key);
-        notifyListeners();
-      }
-    );
+        filterValue: item.detailId,
+        filterKey: (item as Target).specialite,
+        filteredValues: filtersDetailId,
+        filteredKeys: filtersTarget,
+        onSelected: (key, value) {
+          if (filtersDetailId.contains(value)) {
+            filtersDetailId.add(value); // 選択解除
+            selectedDetailIds.add(value);
+          } else {
+            filtersDetailId.remove(value); // 選択
+            selectedDetailIds.remove(value);
+          }
+          updateSelectedTarget(key);
+          notifyListeners();
+        });
   }
+
   void updateSelectedTarget(String newSelectedTarget) {
     selectedTarget = newSelectedTarget;
     notifyListeners();
@@ -100,8 +99,8 @@ class PrincipalModel extends ChangeNotifier {
   late double newCoefficient; //座標係数
   var newName = ''; //事象名
   var calendarNo = 0; //時代コード
-  var newLatitude =0.0;
-  var newLongitude =0.0;
+  var newLatitude = 0.0;
+  var newLongitude = 0.0;
   double cx = 0.0;
   double cy = 0.0;
   double cz = 0.0;
@@ -130,7 +129,8 @@ class PrincipalModel extends ChangeNotifier {
     'E',
     'W',
   ];
-  void ewSwitch(value) async{
+
+  void ewSwitch(value) async {
     switch (selectedOption) {
       case 'E':
         newLongitude = double.tryParse(value)!;
@@ -143,6 +143,7 @@ class PrincipalModel extends ChangeNotifier {
 
   ///Pays
   List<Map<String, dynamic>> pays = countries;
+
   ///Oceans
   List<String> oceans = mer;
 
@@ -165,16 +166,16 @@ class PrincipalModel extends ChangeNotifier {
   final List<String> filtersLocation = <String>[];
   final List<int> filtersLocationId = <int>[];
 
-  String chosenLocation ='';
+  String chosenLocation = '';
 
   var newPrecise = '';
   final List<String> filtersPrecise = <String>[];
   final List<int> filtersPreciseId = <int>[];
 
-  String chosenPrecise ='';
+  String chosenPrecise = '';
 
   var newPlace = '';
-  final List<String> filtersPlaces= <String>[];
+  final List<String> filtersPlaces = <String>[];
   final List<int> filtersPlacesId = <int>[];
   String chosenPlace = '';
 
@@ -199,7 +200,8 @@ class PrincipalModel extends ChangeNotifier {
       case 'Current Country-name':
       case 'Nom actuel du pays':
       case '現在の国名':
-        currentDisplayList = pays.map((country) => country['name'] as String).toList();
+        currentDisplayList =
+            pays.map((country) => country['name'] as String).toList();
         break;
       case 'Ocean-name':
       case 'Nom de l\'océan':
@@ -212,8 +214,9 @@ class PrincipalModel extends ChangeNotifier {
 
   // Method to clear the country/ocean name and replace with city/sea name chips
   Future<void> replaceLocationWithPrecise() async {
-    currentDisplayList = [];// Clear currentDisplayList (country/ocean)
-    await fetchRadioButtonBasisForPrecise(selectedOption);// Fetch and set the city or sea name options based on the selectedOption
+    currentDisplayList = []; // Clear currentDisplayList (country/ocean)
+    await fetchRadioButtonBasisForPrecise(
+        selectedOption); // Fetch and set the city or sea name options based on the selectedOption
     notifyListeners(); // Update the UI
   }
 
@@ -233,8 +236,7 @@ class PrincipalModel extends ChangeNotifier {
         choiceSIKey: item,
         onChoiceSISelected: (choiceSIKey) {
           chosenLocation = choiceSIKey;
-        }
-    );
+        });
   }
 
   //ChipでPreciseを表示
@@ -244,8 +246,7 @@ class PrincipalModel extends ChangeNotifier {
         choiceSIKey: item,
         onChoiceSISelected: (choiceSIKey) {
           chosenPrecise = choiceSIKey;
-        }
-    );
+        });
   }
 
   //選択されたLocationを表示
@@ -391,8 +392,7 @@ class PrincipalModel extends ChangeNotifier {
 
     ///make data of point
     newPoint =
-        (((newYearI - 1) * 366 + (newMonth - 1) * 30.5 + newDay)
-            .toDouble())
+        (((newYearI - 1) * 366 + (newMonth - 1) * 30.5 + newDay).toDouble())
             .round();
 
     ///make data of logarithm
@@ -453,9 +453,8 @@ class PrincipalModel extends ChangeNotifier {
 
         //japanese
         try {
-          var japanese = Japanese(
-              principalId: principalId,
-              japaneseName: newName);
+          var japanese =
+              Japanese(principalId: principalId, japaneseName: newName);
           await client.japanese.addJapanese(japanese);
         } catch (e) {
           print('Error adding Japanese: $e');
@@ -464,8 +463,9 @@ class PrincipalModel extends ChangeNotifier {
         //principal-detail
         try {
           for (var detailId in selectedDetailIds) {
-          var pDetailTarget = PrincipalDetail(principalId: principalId, detailId: detailId);
-          await client.principalDetail.addPDetail(pDetailTarget);
+            var pDetailTarget =
+                PrincipalDetail(principalId: principalId, detailId: detailId);
+            await client.principalDetail.addPDetail(pDetailTarget);
           }
         } catch (e) {
           print('Error adding PrincipalDetail: $e');
@@ -473,14 +473,17 @@ class PrincipalModel extends ChangeNotifier {
 
         //with Map
         var withMap = WithMap(
-            principalId: principalId,
-            annee: newAnnee,
-            affair: newName,
-            location: location,
-            precise: precise,
-            latitude: newLatitude,
-            longitude: newLongitude,
-            logarithm: newLogarithm);
+          principalId: principalId,
+          annee: newAnnee,
+          affair: newName,
+          location: location,
+          precise: precise,
+          latitude: newLatitude,
+          longitude: newLongitude,
+          logarithm: newLogarithm,
+          updatedAt: DateTime.now().toUtc(),
+          deletedAt: null,
+        );
         await client.withMap.addWithMap(withMap);
 
         //with Globe
@@ -520,7 +523,8 @@ class PrincipalModel extends ChangeNotifier {
               onTap: () {
                 Navigator.push<String>(
                   context,
-                  MaterialPageRoute(builder: (context) => const PrincipalPage()),
+                  MaterialPageRoute(
+                      builder: (context) => const PrincipalPage()),
                 ); // ダイアログを閉じる
               },
             ),
