@@ -5,8 +5,8 @@ packages:
     dependency: "direct main"
     description:
       path: acorn_client
-      ref: HEAD
-      resolved-ref: "9e3f2c1e071c55a578afdbf58f87cc389458382d"
+      ref: "62dda7449852a709bb3c683f970e915069165041"
+      resolved-ref: "62dda7449852a709bb3c683f970e915069165041"
       url: "https://github.com/dongri727/acorn"
     source: git
     version: "0.0.0"
@@ -54,10 +54,10 @@ packages:
     dependency: transitive
     description:
       name: characters
-      sha256: f71061c654a3380576a52b451dd5532377954cf9dbd272a78fc8479606670803
+      sha256: faf38497bda5ead2a8c7615f4f7939df04333478bf32e4173fcb06d428b5716b
       url: "https://pub.dev"
     source: hosted
-    version: "1.4.0"
+    version: "1.4.1"
   checked_yaml:
     dependency: transitive
     description:
@@ -346,18 +346,18 @@ packages:
     dependency: transitive
     description:
       name: matcher
-      sha256: dc58c723c3c24bf8d3e2d3ad3f2f9d7bd9cf43ec6feaa64181775e60190153f2
+      sha256: dc0b7dc7651697ea4ff3e69ef44b0407ea32c487a39fff6a4004fa585e901861
       url: "https://pub.dev"
     source: hosted
-    version: "0.12.17"
+    version: "0.12.19"
   material_color_utilities:
     dependency: transitive
     description:
       name: material_color_utilities
-      sha256: f7142bb1154231d7ea5f96bc7bde4bda2a0945d2806bb11670e30b850d56bdec
+      sha256: "9c337007e82b1889149c82ed242ed1cb24a66044e30979c44912381e9be4c48b"
       url: "https://pub.dev"
     source: hosted
-    version: "0.11.1"
+    version: "0.13.0"
   meta:
     dependency: transitive
     description:
@@ -506,34 +506,34 @@ packages:
     dependency: transitive
     description:
       name: serverpod_auth_client
-      sha256: e3d0f4043e5acf27c1f53260f68f6978cdc1166e84969e118854b36e70581e78
+      sha256: "21fff4e57d05499c32dcdf4bc997b4ed2a0b4f97f8d1f92c8ed8f133814126be"
       url: "https://pub.dev"
     source: hosted
-    version: "3.1.1"
+    version: "3.4.11"
   serverpod_client:
     dependency: transitive
     description:
       name: serverpod_client
-      sha256: "236c019b3a6b157e369b776d0552a016946d2c8abdd480fa1bc7a1dd4ec34daa"
+      sha256: d79108bd64df3efea7cae0c6b9473049f308c40236039c0dd7397539062e5191
       url: "https://pub.dev"
     source: hosted
-    version: "3.1.1"
+    version: "3.4.11"
   serverpod_flutter:
     dependency: "direct main"
     description:
       name: serverpod_flutter
-      sha256: "161699c49191480abd12b4b4f964b0495f5499e497e77797a4f4693910490a88"
+      sha256: e6235cfb9706235ed9940350b8a9c6e4e3ae3a31484f2cdad5cd80b9605732d4
       url: "https://pub.dev"
     source: hosted
-    version: "3.1.1"
+    version: "3.4.11"
   serverpod_serialization:
     dependency: transitive
     description:
       name: serverpod_serialization
-      sha256: b1d17f55c5b0c7b44bf3dbc1c9525307560a6a5333c0947b45dedcea3e7fe822
+      sha256: e159f298e9b980bfea720fbb91d66d5ad00ff6510f2fcd851932e9942ca0673d
       url: "https://pub.dev"
     source: hosted
-    version: "3.1.1"
+    version: "3.4.11"
   shared_preferences:
     dependency: "direct main"
     description:
@@ -639,10 +639,10 @@ packages:
     dependency: transitive
     description:
       name: test_api
-      sha256: ab2726c1a94d3176a45960b6234466ec367179b87dd74f1611adb1f3b5fb9d55
+      sha256: "8161c84903fd860b26bfdefb7963b3f0b68fee7adea0f59ef805ecca346f0c7a"
       url: "https://pub.dev"
     source: hosted
-    version: "0.7.7"
+    version: "0.7.10"
   typed_data:
     dependency: transitive
     description:
@@ -727,10 +727,10 @@ packages:
     dependency: transitive
     description:
       name: uuid
-      sha256: a11b666489b1954e01d992f3d601b1804a33937b5a8fe677bd26b8a9f96f96e8
+      sha256: "9b129329f58692f6e6578329498a8fe9fbe98f090beb764ffbb8ee2eadd01dcd"
       url: "https://pub.dev"
     source: hosted
-    version: "4.5.2"
+    version: "4.6.0"
   vector_math:
     dependency: transitive
     description:

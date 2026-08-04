@@ -22,9 +22,9 @@ class FetchWithMapRepository {
           .map((item) => item.id!)
           .toList();
       return listWithMap; // 取得したデータを返す
-    } on Exception catch (e) {
+    } catch (e, stackTrace) {
       debugPrint('fetchWithMap failed: $e');
-      return []; // エラー時には空のリストを返す
+      Error.throwWithStackTrace(e, stackTrace);
     }
   }
 }
