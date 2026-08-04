@@ -64,20 +64,29 @@ class SearchModel extends ChangeNotifier {
         filteredValues: filtersDetailId,
         filterKey: item.specialite,
         filterValue: item.detailId,
-        onSelected: (filterKey, filterId) {
-          selectedTarget = filterKey;
-          selectedDetailId = filterId;
-          updateSelectedTarget(filterKey);
-        });
+        onSelected: updateTargetSelection);
   }
 
-  void updateSelectedTarget(String newSelectedTarget) {
-    selectedTarget = newSelectedTarget;
+  void updateTargetSelection(String target, int detailId, bool selected) {
+    if (selected) {
+      if (!filtersTarget.contains(target)) filtersTarget.add(target);
+      if (!filtersDetailId.contains(detailId)) filtersDetailId.add(detailId);
+      if (!selectedDetailIds.contains(detailId)) {
+        selectedDetailIds.add(detailId);
+      }
+    } else {
+      filtersTarget.remove(target);
+      filtersDetailId.remove(detailId);
+      selectedDetailIds.remove(detailId);
+    }
+
+    selectedTarget = selected ? target : '';
+    selectedDetailId = selectedDetailIds.isEmpty ? 0 : selectedDetailIds.last;
     notifyListeners();
   }
 
   void setSelectedDetailId(List<int> id) {
-    selectedDetailIds = id;
+    selectedDetailIds = id.toSet().toList();
     notifyListeners();
   }
 
@@ -180,9 +189,9 @@ class SearchModel extends ChangeNotifier {
     return shifted;
   }
 
-  Future<void> showResult(BuildContext context, int selectedDetailId) async {
+  Future<void> showResult(BuildContext context) async {
     //todo アプリが日本語バージョンを選択しており取得済みのList[Japanese]がある場合、これを受け取る。
-    await fetchPrincipalByDetailId(detailIds: [selectedDetailId]);//principalを取る。
+    await fetchPrincipalByDetailId(detailIds: selectedDetailIds); // OR検索
     if (!context.mounted) return;
     await fetchMapData(principalIds, context); //principalに相当するMapを取り、対応する日本語を取り込む。
     //print(principalIds);
@@ -214,5 +223,3 @@ class SearchModel extends ChangeNotifier {
 
     }
 }
-
-

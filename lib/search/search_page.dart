@@ -83,7 +83,7 @@ class SearchPage extends StatelessWidget {
             child: FloatingActionButton.extended(
                 label: const Text('Show Result'),
                 onPressed: () {
-                  model.showResult(context, model.selectedDetailId);
+                  model.showResult(context);
                 },
             ),
           ),

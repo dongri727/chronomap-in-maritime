@@ -58,26 +58,28 @@ class PrincipalModel extends ChangeNotifier {
         filterKey: (item as Target).specialite,
         filteredValues: filtersDetailId,
         filteredKeys: filtersTarget,
-        onSelected: (key, value) {
-          if (filtersDetailId.contains(value)) {
-            filtersDetailId.add(value); // 選択解除
-            selectedDetailIds.add(value);
-          } else {
-            filtersDetailId.remove(value); // 選択
-            selectedDetailIds.remove(value);
-          }
-          updateSelectedTarget(key);
-          notifyListeners();
-        });
+        onSelected: updateTargetSelection);
   }
 
-  void updateSelectedTarget(String newSelectedTarget) {
-    selectedTarget = newSelectedTarget;
+  void updateTargetSelection(String target, int detailId, bool selected) {
+    if (selected) {
+      if (!filtersTarget.contains(target)) filtersTarget.add(target);
+      if (!filtersDetailId.contains(detailId)) filtersDetailId.add(detailId);
+      if (!selectedDetailIds.contains(detailId)) {
+        selectedDetailIds.add(detailId);
+      }
+    } else {
+      filtersTarget.remove(target);
+      filtersDetailId.remove(detailId);
+      selectedDetailIds.remove(detailId);
+    }
+
+    selectedTarget = selected ? target : '';
     notifyListeners();
   }
 
   void setSelectedDetailId(List<int> id) {
-    selectedDetailIds = id;
+    selectedDetailIds = id.toSet().toList();
     notifyListeners();
   }
 

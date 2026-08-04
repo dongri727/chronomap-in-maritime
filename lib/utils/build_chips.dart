@@ -8,7 +8,7 @@ Widget buildFilterFormatImediat({
   required List<int> filteredValues,
   required String filterKey,
   required int filterValue,
-  required Function(String, int) onSelected,
+  required OnSelected onSelected,
 }) {
   return FilterFormatImediat(
     filteredImKeys: filteredKeys,

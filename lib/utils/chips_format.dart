@@ -131,9 +131,9 @@ class FilterFormatState extends State<FilterFormat> {
   }
 }
 
-typedef OnSelected = void Function(String filterKey, int filterId);
+typedef OnSelected = void Function(String filterKey, int filterId, bool selected);
 
-class FilterFormatImediat extends StatefulWidget {
+class FilterFormatImediat extends StatelessWidget {
   final List<String> filteredImKeys;
   final List<dynamic> filteredImValues;
   final String filterImKey;
@@ -150,37 +150,16 @@ class FilterFormatImediat extends StatefulWidget {
   });
 
   @override
-  FilterFormatImediatState createState() => FilterFormatImediatState();
-}
-
-class FilterFormatImediatState extends State<FilterFormatImediat> {
-  @override
   Widget build(BuildContext context) {
     return FilterChip(
       label: Text(
-          widget.filterImKey,
+          filterImKey,
         style: const TextStyle(fontSize: 10),
       ),
       padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
-      selected: widget.filteredImKeys.contains(widget.filterImKey),
+      selected: filteredImValues.contains(filterImValue),
       onSelected: (bool value) {
-        setState(() {
-          if (value) {
-            if (!widget.filteredImKeys.contains(widget.filterImKey)) {
-              widget.filteredImKeys.add(widget.filterImKey);
-            }
-            if (!widget.filteredImValues.contains(widget.filterImValue)) {
-              widget.filteredImValues.add(widget.filterImValue);
-            }
-          } else {
-            widget.filteredImKeys
-                .removeWhere((key) => key == widget.filterImKey);
-            widget.filteredImValues
-                .removeWhere((value) => value == widget.filterImValue);
-          }
-          // Notify the parent widget that the selection has changed.
-          widget.onSelected(widget.filterImKey, widget.filterImValue);
-        });
+        onSelected(filterImKey, filterImValue, value);
       },
     );
   }
