@@ -5,8 +5,8 @@ packages:
     dependency: "direct main"
     description:
       path: acorn_client
-      ref: "62dda7449852a709bb3c683f970e915069165041"
-      resolved-ref: "62dda7449852a709bb3c683f970e915069165041"
+      ref: "8a504d109f83269e3bd2dbeee7398838bce815e4"
+      resolved-ref: "8a504d109f83269e3bd2dbeee7398838bce815e4"
       url: "https://github.com/dongri727/acorn"
     source: git
     version: "0.0.0"

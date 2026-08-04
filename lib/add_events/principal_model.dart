@@ -447,35 +447,8 @@ class PrincipalModel extends ChangeNotifier {
           precise: precise,
         );
 
-        debugPrint('$newPoint');
-
-        var principalId = await client.principal.addPrincipal(principal);
-
-        debugPrint('$principalId');
-
-        //japanese
-        try {
-          var japanese =
-              Japanese(principalId: principalId, japaneseName: newName);
-          await client.japanese.addJapanese(japanese);
-        } catch (e) {
-          print('Error adding Japanese: $e');
-        }
-
-        //principal-detail
-        try {
-          for (var detailId in selectedDetailIds) {
-            var pDetailTarget =
-                PrincipalDetail(principalId: principalId, detailId: detailId);
-            await client.principalDetail.addPDetail(pDetailTarget);
-          }
-        } catch (e) {
-          print('Error adding PrincipalDetail: $e');
-        }
-
-        //with Map
         var withMap = WithMap(
-          principalId: principalId,
+          principalId: 0,
           annee: newAnnee,
           affair: newName,
           location: location,
@@ -483,14 +456,10 @@ class PrincipalModel extends ChangeNotifier {
           latitude: newLatitude,
           longitude: newLongitude,
           logarithm: newLogarithm,
-          updatedAt: DateTime.now().toUtc(),
-          deletedAt: null,
         );
-        await client.withMap.addWithMap(withMap);
 
-        //with Globe
         var withGlobe = WithGlobe(
-            principalId: principalId,
+            principalId: 0,
             annee: newAnnee,
             affair: newName,
             location: location,
@@ -499,7 +468,15 @@ class PrincipalModel extends ChangeNotifier {
             yCoordinate: double.parse((cy).toStringAsFixed(4)),
             zCoordinate: double.parse((cz).toStringAsFixed(4)),
             coefficient: newCoefficient);
-        await client.withGlobe.addWithGlobe(withGlobe);
+
+        final principalId = await client.chronomap.createChronomapEntry(
+          principal: principal,
+          japaneseName: newName,
+          detailIds: selectedDetailIds.toSet().toList(),
+          withMap: withMap,
+          withGlobe: withGlobe,
+        );
+        debugPrint('Saved Chronomap principalId: $principalId');
 
         return 0;
       } catch (e, st) {
